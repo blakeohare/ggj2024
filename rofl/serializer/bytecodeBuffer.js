@@ -20,9 +20,9 @@ let createRow = (op, token, stringArg, args) => {
         op,
         isLeaf: true,
         size: 1,
-        token,
+        token: token && token.firstToken ? token.firstToken : token,
         str: stringArg,
-        args: args,
+        args: typeof args === 'number' ? [args] : args,
     };
     o.first = o;
     o.last = o;
