@@ -67,7 +67,7 @@ Like an if/else, a ternary also uses the redneck/soviet joke format but abbrevia
 To create a loop, use a running gag:
 
 ```
-gag (condition)
+running gag (condition)
     (code that runs until the condition is no longer true)
 bdt
 ```
@@ -114,9 +114,9 @@ You can create a blank struct using the $object(). You can apply and extract fie
 
 All abbreivations can be spelt out:
 
-- `kkwt ____ who?`: `knock-knock who's there ____ who?`
+- `kkwt ____ who?`: `knock knock who's there ____ who?`
 - `gag`: `running gag`
-- `bdt`: `ba-dum-tsss` - any number of `s`'s is allowed
+- `bdt`: `ba dum tsss` - any number of `s`'s is allowed
 - `ymbari`: `you might be a redneck if`
 - `isr`: `in soviet russia`
 - `tyw`: `tip your waitress`
