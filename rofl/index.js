@@ -46,6 +46,6 @@ const ROFL = (() => {
         let images = {};
         imageList.forEach(img => { images[img.originalPath] = img; });
 
-        await run(bundle);
+        await run({ ...bundle, images });
     };
 })();

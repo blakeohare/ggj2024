@@ -7,12 +7,13 @@ kkwt main() who?
     gameCtx.screen = $newImage(640, 480);
     gameCtx.tempImage = $newImage(640, 480);
     gameCtx.thinImageStrip = $newImage(4, 480);
+    gameCtx.images = $hashmap();
     cursor = $object();
     cursor.x = 0;
     cursor.y = 0;
     isMouseDown = nope;
 
-    scene = makeTitleScene();
+    scene = makeTitleScene(gameCtx);
 
     rc = 0;
     running gag (gameOver NOT)
@@ -50,7 +51,7 @@ kkwt main() who?
 bdt
 
 kkwt getImage(gameCtx, path) who?
-    image = gameCtx.images.get(path);
+    image = gameCtx.images.get(path, nada);
     ymbari (image == nada)
         image = $loadImage(path);
         gameCtx.images[path] = image;

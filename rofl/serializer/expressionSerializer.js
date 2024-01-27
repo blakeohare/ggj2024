@@ -71,9 +71,11 @@ let serializeString = sc => {
 };
 
 let serializeDotField = df => {
+    if (df.isMethodRef) throw new Error("Cannot use -> on an expression without immediately invoking it.");
+
     return joinRows(
         serializeExpression(df.root),
-        createRow('DOT', df.opToken, df.name, df.isMethodRef ? 1 : 0));
+        createRow('DOT', df.opToken, df.name));
 };
 
 let serializeNull = nc => {
@@ -137,10 +139,19 @@ let serializeInvocation = fi => {
             createRow('SYS_INVOKE', fi, fi.root.name, argc));
     }
 
+    if (fi.root.type === 'DOT_FIELD') {
+        let df = fi.root;
+        return joinRows(
+            serializeExpression(df.root),
+            args,
+            createRow('INVOKE', fi.opToken, df.name, [argc, df.isMethodRef ? 1 : 2])
+        );
+    }
+
     return joinRows(
         serializeExpression(fi.root),
         args,
-        createRow('INVOKE', fi.opToken, null, argc));
+        createRow('INVOKE', fi.opToken, null, [argc, 0]));
 };
 
 let serializeBoolean = bc => {

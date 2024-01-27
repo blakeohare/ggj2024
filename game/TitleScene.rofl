@@ -4,8 +4,8 @@ kkwt makeTitleScene(gameCtx) who?
     s.render = TitleScene_render;
     s.nextScene = nada;
     s.options = [
-        [getImage('images/menu/main_play.png'), goToPlayScene, nada],
-        [getImage('images/menu/main_about.png'), goToAboutScene, nada],
+        [gameCtx->getImage('images/main_play.png'), goToPlayScene, nada],
+        [gameCtx->getImage('images/main_about.png'), goToAboutScene, nada],
     ];
     tip your waitress s;
 bdt
@@ -38,15 +38,16 @@ kkwt TitleScene_update(s, events) who?
 bdt
 
 kkwt TitleScene_render(s, rc) who?
-    image = getImage('images/menu/title.png');
+    image = getImage('images/title.png');
     $drawImage(image, 0, 0);
     i = 0;
 
     running gag (i < s.options.length)
         option = s.options[i];
         x = 100;
-        y = 300 + 100 * i;
+        y = 250 + 100 * i;
         $drawImage(option[0], x, y);
+        option[2] = [x, y, option[0].width + x, option[0].height + y];
     bdt
 bdt
 

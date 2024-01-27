@@ -1,9 +1,15 @@
-TEXT_INCLUDE('interpreter.js');
+let run = (() => {
 
-let run = async bundle => {
-    let executionContext = {
-        ...bundle, 
-        screen: GameUtil.buildScreen(),
+    TEXT_INCLUDE('interpreter.js');
+    TEXT_INCLUDE('valueUtil.js');
+
+    return async bundle => {
+        let executionContext = {
+            ...bundle,
+            globals: createGlobals(),
+            screen: GameUtil.buildScreen(),
+        };
+        await interpret(executionContext);
     };
-    await interpret(executionContext);
-};
+
+})();
