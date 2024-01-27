@@ -6,6 +6,14 @@ const ROFL = (() => {
     TEXT_INCLUDE('serializer/index.js');
     TEXT_INCLUDE('runner/index.js');
 
+    let throwError = (tokenOrNode, msg) => {
+        let token = (tokenOrNode && tokenOrNode.firstToken) ? tokenOrNode.firstToken: tokenOrNode;
+        if (token) {
+            msg = "[" + token.file + "] Line " + token.line + " Column " + token.col + ": " + msg;
+        }
+        throw new Error(msg);
+    };
+
     return async (files) => {
         let codeFiles = Object.keys(files).filter(f => f.endsWith('.rofl'));
         let imageFiles = Object.keys(files).filter(f => f.endsWith('.png'));

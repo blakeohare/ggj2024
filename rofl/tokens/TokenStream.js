@@ -34,14 +34,35 @@ let createTokenStream = (file, tokens) => {
         throw throwError(token, "Expected " + purpose + " but found '" + token.value + "' instead.");
     };
 
+    let popChain = (...values) => {
+        let first = null;
+        for (let value of values) {
+            let token = popExpected(value);
+            first = first || token;
+        }
+        return first;
+    };
+
+    let peekValue = () => index < length ? tokens[i].value : null;
+    let peekValueNonNull = () => index < length ? tokens[i].value : '';
+
+    let popAlts = (value, valueChain) => {
+        if (isNext(valueChain[0])) return popChain(valueChain);
+        return popExpected(value);
+    };
+
     return {
         peek,
+        peekValue,
+        peekValueNonNull,
         pop,
         hasMore,
         ensureMore,
         isNext,
         popIfPresent,
         popExpected,
+        popChain,
         popName,
+        popAlts,
     };
 };
