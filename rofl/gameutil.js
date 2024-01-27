@@ -17,6 +17,7 @@ const GameUtil = (() => {
             let y = Math.floor(480 * (ev.clientY - rect.top) / rect.height);
             return { x, y };
         };
+        el.addEventListener('contextmenu', ev => { ev.preventDefault(); });
         el.addEventListener('pointerdown', ev => {
             ev.preventDefault();
             eventQueue.push({ type: 'MOUSE_DOWN', ...getCoord(ev) });
