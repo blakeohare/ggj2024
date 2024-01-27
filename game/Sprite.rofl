@@ -14,6 +14,8 @@ kkwt Sprite_new(scene, type) who?
     ymbari (type == 'PLAYER')
         sprite.render = Sprite_chickenRender;
         sprite.update = Sprite_chickenUpdate;
+        sprite.x = 320;
+        sprite.y = 460;
     isr ymbari (type == 'CAR')
         sprite.render = Sprite_carRender;
         sprite.update = Sprite_carUpdate;
@@ -47,7 +49,7 @@ bdt
 kkwt Sprite_carRender(sprite, bg, rc) who?
     image = getImage(
         sprite.scene.gameCtx,
-        sprite.isLeft redneck? 'images/chickenLeft.png' bolshevik? 'images/chickenRight.png');
+        sprite.isLeft redneck? 'images/carLeft.png' bolshevik? 'images/carRight.png');
     $drawImage(bg, image, sprite.x - sprite.radius, sprite.y - sprite.radius);
 bdt
 
@@ -65,11 +67,10 @@ kkwt Sprite_chickenUpdate(sprite) who?
     sprite.y = newY;
 bdt
 
-
 kkwt Sprite_chickenRender(sprite, bg, rc) who?
     image = getImage(
         sprite.scene.gameCtx,
-        sprite.isLeft redneck? 'images/carLeft.png' bolshevik? 'images/carRight.png');
+        sprite.isLeft redneck? 'images/chickenLeft.png' bolshevik? 'images/chickenRight.png');
     $drawImage(bg, image, $floor(sprite.x - sprite.radius), $floor(sprite.y - sprite.radius));
 bdt
 

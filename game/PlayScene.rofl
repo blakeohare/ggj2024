@@ -4,6 +4,7 @@ kkwt makePlayScene(gameCtx, drunkness) who?
     scene.update = PlayScene_update;
     scene.render = PlayScene_render;
     scene.nextScene = nada;
+    scene.drunkness = drunkness;
 
     scene.player = Sprite_new(scene, 'PLAYER');
     scene.sprites = [scene.player];
@@ -15,6 +16,7 @@ kkwt makePlayScene(gameCtx, drunkness) who?
         car =  Sprite_new(scene, 'CAR');
         car.y = getValidCarYCoordinate();
         car.x = $floor(600 * lol whatever + 20);
+        car.isLeft = lol whatever < .5;
         scene.sprites.add(car);
         i = i + 1;
     bdt
@@ -52,11 +54,12 @@ kkwt PlayScene_update(s, cursor, events) who?
     goalX = 332;
     goalY = 83;
 
-    dx = goalX - s.player.dx;
-    dy = goalY - s.player.dy;
+    dx = goalX - s.player.x;
+    dy = goalY - s.player.y;
     closeEnoughDistance = 15;
+    $print(dx, dy, closeEnoughDistance);
     you might be a redneck if (dx ** 2 + dy ** 2 < closeEnoughDistance ** 2)
-        scene.nextScene = makeVictoryScene(s.gameCtx);
+        s.nextScene = makeVictoryScene(s.gameCtx, s.drunkness);
     ba dum tsss
 
     newSprites = [];

@@ -7,6 +7,7 @@ const GameUtil = (() => {
     let screen = null;
     let buildScreen = () => {
         screen = createImage(640, 480);
+        screen.canvas.style.touchAction = 'none';
         clearElement(document.body);
         document.body.append(screen.canvas);
         let el = screen.canvas;
@@ -17,12 +18,15 @@ const GameUtil = (() => {
             return { x, y };
         };
         el.addEventListener('pointerdown', ev => {
+            ev.preventDefault();
             eventQueue.push({ type: 'MOUSE_DOWN', ...getCoord(ev) });
         });
         el.addEventListener('pointerup', ev => {
+            ev.preventDefault();
             eventQueue.push({ type: 'MOUSE_UP', ...getCoord(ev) });
         });
         el.addEventListener('pointermove', ev => {
+            ev.preventDefault();
             eventQueue.push({ type: 'MOUSE_MOVE', ...getCoord(ev) });
         });
     };
