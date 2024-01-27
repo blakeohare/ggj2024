@@ -2,8 +2,8 @@ let createTokenStream = (file, tokens) => {
     let index = 0;
     let length = tokens.length;
 
-    let peek = () => index < length ? tokens[i] : null;
-    let pop = () => index < length ? tokens[i++] : null;
+    let peek = () => index < length ? tokens[index] : null;
+    let pop = () => index < length ? tokens[index++] : null;
     let hasMore = () => index < length;
     let ensureMore = () => {
         if (index < length) {
@@ -11,9 +11,9 @@ let createTokenStream = (file, tokens) => {
         }
     };
 
-    let isNext = value => index < length && tokens[i].value === value;
+    let isNext = value => index < length && tokens[index].value === value;
     let popIfPresent = value => {
-        if (index < length && tokens[i].value === value) {
+        if (index < length && tokens[index].value === value) {
             index++;
             return true;
         }
@@ -34,7 +34,7 @@ let createTokenStream = (file, tokens) => {
         throw throwError(token, "Expected " + purpose + " but found '" + token.value + "' instead.");
     };
 
-    let popChain = (...values) => {
+    let popChain = (values) => {
         let first = null;
         for (let value of values) {
             let token = popExpected(value);
@@ -43,8 +43,8 @@ let createTokenStream = (file, tokens) => {
         return first;
     };
 
-    let peekValue = () => index < length ? tokens[i].value : null;
-    let peekValueNonNull = () => index < length ? tokens[i].value : '';
+    let peekValue = () => index < length ? tokens[index].value : null;
+    let peekValueNonNull = () => index < length ? tokens[index].value : '';
 
     let popAlts = (value, valueChain) => {
         if (isNext(valueChain[0])) return popChain(valueChain);

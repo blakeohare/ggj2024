@@ -34,8 +34,9 @@ let parseStatement = (tokens) => {
     return stmnt;
 };
 
+const GAG = 'running gag'.split(' ');
 let parseWhile = tokens => {
-    let firstToken = tokens.popAlts('gag', ['running', 'gag']);
+    let firstToken = tokens.popAlts('gag', GAG);
     tokens.popExpected('(');
     let condition = parseExpression(tokens);
     tokens.popExpected(')');
@@ -59,12 +60,19 @@ let parseIf = tokens => {
     tokens.popExpected('(');
     let condition = parseExpression(tokens);
     tokens.popExpected(')');
-    let trueCode = parseBlock(tokens);
+    let trueCode = parseBlock(tokens, true);
     let falseCode = [];
 
     if (isIsrNext(tokens)) {
         tokens.popAlts('isr', ISR);
-        falseCode = parseBlock(tokens);
+        if (tokens.isNext('ymbari') || tokens.isNext('you')) {
+            falseCode = [parseIf(tokens)];
+        } else {
+            falseCode = parseBlock(tokens, true);
+            popBdt(tokens);
+        }
+    } else {
+        popBdt(tokens);
     }
 
     return {

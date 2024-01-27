@@ -1,5 +1,27 @@
 let parseExpression = (() => {
 
+    let parseStringValue = (throwToken, value) => {
+        let str = value.substring(1, value.length - 1);
+        let sb = '';
+        for (let i = 0; i < str.length; i++) {
+            let c = str[i];
+            if (c === '\\') {
+                if (i + 1 < str.length) {
+                    c = str[++i];
+                    let newChar = escapeSequences[c];
+
+                    if (!newChar) throw throwError(throwToken, "Invalid string escape sequence: '\\" + c + "'");
+                    sb += newChar;
+                } else {
+                    throw throwError(throwToken, "A string constant cannot end with an unescaped backslash.");
+                }
+            } else {
+                sb += c;
+            }
+        }
+        return sb;
+    };
+
     let buildOpParser = (ops, nextParser, useShortCircuit) => {
         let opLookup = new Set(ops.split(' '));
         return (tokens) => {
@@ -34,6 +56,7 @@ let parseExpression = (() => {
                 acc.firstToken = acc.left.firstToken;
             }
         } else {
+            acc = expressions[0];
             for (let i = 1; i < expressions.length; i++) {
                 acc = {
                     type: 'OP_PAIR',
@@ -59,7 +82,7 @@ let parseExpression = (() => {
             let falseValue = parseTernary(tokens);
             return {
                 type: 'TERNARY',
-                firstToken: condition.firstToken,
+                firstToken: root.firstToken,
                 opToken,
                 condition: root,
                 trueExpression: trueValue,
@@ -198,7 +221,7 @@ let parseExpression = (() => {
                         items.push(parseExpression(tokens));
                         nextAllowed = tokens.popIfPresent(',');
                     }
-                    tokens.popExected(']');
+                    tokens.popExpected(']');
                     return {
                         type: 'LIST_DEFINITION',
                         firstToken: token,

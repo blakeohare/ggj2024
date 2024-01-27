@@ -2,12 +2,13 @@ let parseEntity = (tokens) => {
     return parseFunction(tokens); // functions are the only top level entity right now.
 };
 
+const KKWT = 'knock knock who \' s there'.split(' ');
 let parseFunction = tokens => {
     let firstToken;
     if (tokens.isNext('kkwt')) {
         firstToken = tokens.pop();
     } else {
-        firstToken = tokens.popChain('knock', 'knock', 'who', "'", 's', 'there');
+        firstToken = tokens.popChain(KKWT);
     }
 
     let nameToken = tokens.popName();
@@ -17,6 +18,9 @@ let parseFunction = tokens => {
         if (args.length > 0) tokens.popExpected(',');
         args.push(tokens.popName());
     }
+
+    tokens.popExpected('who');
+    tokens.popExpected('?');
 
     let code = parseBlock(tokens);
     return {
@@ -52,17 +56,22 @@ let popTss = tokens => {
 const BDT = ['ba', 'dum'];
 let popBdt = tokens => {
     if (tokens.isNext('ba')) {
-        let token = popChain('ba', 'dum');
+        let token = tokens.popChain(BDT);
         popTss(tokens);
+        return token;
     }
     return tokens.popExpected('bdt');
 };
 
-let parseBlock = tokens => {
+let parseBlock = (tokens, skipBdt) => {
     let lines = [];
     while (!isBdtNext(tokens) && !isIsrNext(tokens)) {
         lines.push(parseStatement(tokens));
     }
-    if (isBdtNext(tokens)) popBdt(tokens);
+
+    if (!skipBdt) {
+        if (isBdtNext(tokens)) popBdt(tokens);
+    }
+
     return lines;
 };

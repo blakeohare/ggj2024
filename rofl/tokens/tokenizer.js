@@ -1,4 +1,4 @@
-let tokenizer = (file, content) => {
+let tokenize = (file, content) => {
 
     let chars = (content.split('\r\n').join('\n') + '\n').split('');
 
@@ -57,9 +57,6 @@ let tokenizer = (file, content) => {
                     mode = 'STRING';
                     tokenStart = i;
                     modeSubtype = c;
-                } else if (c === 'h' && chars[i + 1] === 'e' && chars.slice(i, i + 'heckle'.length).join('') === 'heckle') {
-                    mode = 'COMMENT';
-                    i += 5;
                 } else if (multicharTokens.has(c + chars[i + 1])) {
                     tokens.push({ file, value: chars[i] + chars[i + 1], line: lines[i], col: cols[i], type: 'PUNC' });
                     i++;
@@ -70,9 +67,14 @@ let tokenizer = (file, content) => {
 
             case 'WORD':
                 if (!alphanums.has(c)) {
-                    tokens.push({ file, value: chars.slice(tokenStart, i).join(''), line: lines[tokenStart], col: cols[tokenStart], type: 'WORD' });
+                    let value = chars.slice(tokenStart, i).join('');
+                    if (value === 'heckle') {
+                        mode = 'COMMENT';
+                    } else {
+                        tokens.push({ file, value, line: lines[tokenStart], col: cols[tokenStart], type: 'WORD' });
+                        mode = 'NORMAL';
+                    }
                     --i;
-                    mode = 'NORMAL';
                 }
                 break;
 
@@ -94,7 +96,9 @@ let tokenizer = (file, content) => {
         }
     }
 
-    if (mode !== 'NORMAL') throw new Error("Unclosed comment or string.");
+    if (mode !== 'NORMAL') {
+        throw new Error("[" + file + "]: Unclosed " + mode.toLowerCase());
+    }
 
     tokens.forEach(t => {
         if (t.type === 'WORD') {
@@ -142,5 +146,5 @@ let tokenizer = (file, content) => {
 
     tokens = tokens.filter(v => !!v);
 
-    return createTokenStream(file, tokens);
+    return tokens;
 };

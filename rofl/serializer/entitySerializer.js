@@ -5,10 +5,12 @@ let serializeEntity = entity => {
 };
 
 let serializeFunctionDefinition = func => {
-    let buffer = createRow('ENSURE_ARGC', func, null, func.args.length);
-    for (let i = 0; i < args.length; i++) {
+    let { args } = func;
+    let argc = args.length;
+    let buffer = createRow('ENSURE_ARGC', func, null, argc);
+    for (let i = 0; i < argc; i++) {
         buffer = joinRows(
-            buffer, 
+            buffer,
             createRow('PUSH_ARG', null, null, i),
             createRow('ASSIGN_VAR', args[i], args[i].value),
         );
@@ -20,11 +22,11 @@ let serializeFunctionDefinition = func => {
 
     if (buffer.last.op !== 'RETURN') {
         buffer = joinRows(
-            buffer, 
+            buffer,
             createRow('PUSH_NULL'),
             createRow('RETURN'),
         );
     }
 
-    return buffer; 
+    return buffer;
 };

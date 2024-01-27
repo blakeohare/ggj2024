@@ -21,10 +21,7 @@ const ROFL = (() => {
         let entities = [];
         for (let codeFile of codeFiles) {
             let tokens = getTokenStream(codeFile, files[codeFile]);
-            while (tokens.hasMore()) {
-                let entity = parseEntity(tokens);
-                entities.push(entity);
-            }
+            entities.push(...parseEntities(tokens));
         }
 
         let bundle = serializeEntities(entities);
