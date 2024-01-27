@@ -56,6 +56,11 @@ bdt
 kkwt Sprite_chickenUpdate(sprite) who?
     newX = sprite.x + sprite.dx;
     newY = sprite.y + sprite.dy;
+
+    ymbari (sprite.dx < -0.01 || sprite.dx > 0.01)
+        sprite.isLeft = sprite.dx < 0;
+    bdt
+
     sprite.dx = 0;
     sprite.dy = 0;
 
