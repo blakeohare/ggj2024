@@ -119,6 +119,16 @@ let interpret = async bundle => {
                         output = buildFloat(globals, left.internalValue + right.internalValue);
                         break;
 
+                    case 'INT-INT':
+                        output = buildInteger(globals, left.internalValue - right.internalValue);
+                        break;
+
+                    case 'INT-FLOAT':
+                    case 'FLOAT-INT':
+                    case 'FLOAT-FLOAT':
+                        output = buildFloat(globals, left.internalValue - right.internalValue);
+                        break;
+
                     case 'INT*INT':
                         output = buildInteger(globals, left.internalValue * right.internalValue);
                         break;
@@ -129,6 +139,23 @@ let interpret = async bundle => {
                         output = buildFloat(globals, left.internalValue * right.internalValue);
                         break;
 
+                    case 'INT/INT':
+                        if (right.internalValue === 0) {
+                            err = "Division by 0";
+                        } else {
+                            output = buildInteger(globals, left.internalValue / right.internalValue);
+                        }
+                        break;
+
+                    case 'INT/FLOAT':
+                    case 'FLOAT/INT':
+                    case 'FLOAT/FLOAT':
+                        if (right.internalValue === 0) {
+                            err = "Division by 0";
+                        } else {
+                            output = buildFloat(globals, left.internalValue / right.internalValue);
+                        }
+                        break;
 
                     case 'INT==FLOAT':
                     case 'FLOAT==INT':
@@ -447,6 +474,12 @@ let interpret = async bundle => {
                 pc--;
                 break;
 
+            case 'PUSH_FLOAT':
+                row.op = 'PUSH_VALUE';
+                row.valueCache = buildFloat(globals, parseFloat(row.str));
+                pc--;
+                break;
+
             case 'PUSH_INTEGER':
                 row.op = 'PUSH_VALUE';
                 row.valueCache = buildInteger(globals, row.arg0);
@@ -568,6 +601,34 @@ let interpret = async bundle => {
                         }
                         break;
 
+                    case 'max':
+                        output = null;
+                        for (i = 0; i < argc; i++) {
+                            if (args[i].type === 'INT' || args[i].type === 'FLOAT') {
+                                if (output === null || args[i].internalValue > value.internalValue) {
+                                    output = args[i];
+                                }
+                            } else {
+                                err = "$max requires numeric arguments.";
+                                break;
+                            }
+                        }
+                        break;
+
+                    case 'min':
+                        output = null;
+                        for (i = 0; i < argc; i++) {
+                            if (args[i].type === 'INT' || args[i].type === 'FLOAT') {
+                                if (output === null || args[i].internalValue < value.internalValue) {
+                                    output = args[i];
+                                }
+                            } else {
+                                err = "$max requires numeric arguments.";
+                                break;
+                            }
+                        }
+                        break;
+
                     case 'newImage':
                         if (argc !== 2 || args[0].type !== 'INT' || args[1].type !== 'INT') {
                             err = "2 arguments expected for $newImage()";
@@ -578,6 +639,17 @@ let interpret = async bundle => {
 
                     case 'object':
                         output = { type: 'STRUCT', internalValue: {} };
+                        break;
+
+                    case 'sleep':
+                        if (argc !== 1 || (args[0].type !== 'INT' && args[0].type !== 'FLOAT')) {
+                            err = "$sleep() requires a numeric argument.";
+                        } else {
+                            await new Promise(r => {
+                                setTimeout(() => r(true), Math.floor(args[0].internalValue * 1000));
+                            });
+                            output = null;
+                        }
                         break;
 
                     case 'unixTime':

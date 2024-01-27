@@ -76,7 +76,7 @@ let convertNativeToValue = (globals, v) => {
     }
     if (v === null || v === undefined) return globals.globalNull;
     if (type === 'boolean') return buildBool(globals, v);
-    if (type === 'string') return buildString(glboals, v);
+    if (type === 'string') return buildString(globals, v);
     return globals.globalNull;
 };
 
