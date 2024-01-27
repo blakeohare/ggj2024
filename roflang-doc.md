@@ -86,6 +86,8 @@ bdt
 
 To invert a boolean, use the `NOT` suffix. This is akin to a typical `!` prefix in other languages.
 
+`PSYCH` is an alias for `NOT`.
+
 ## Generate a random number
 
 To generate a floating point number between 0 (inclusive) and 1 (exclusive), use the `lol whatever` keywords.

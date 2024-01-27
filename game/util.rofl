@@ -1,0 +1,11 @@
+
+heckle
+    Noop functions for if an implementation isn't needed.
+    If it was a 3-day jam, I'd add optional arguments.
+call security
+
+kkwt noop0() who? bdt
+kkwt noop1(a) who? bdt
+kkwt noop2(a, b) who? bdt
+kkwt noop3(a, b, c) who? bdt
+kkwt noop4(a, b, c, d) who? bdt

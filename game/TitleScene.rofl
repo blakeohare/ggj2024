@@ -1,0 +1,59 @@
+kkwt makeTitleScene(gameCtx) who?
+    s = $newStruct();
+    s.update = TitleScene_update;
+    s.render = TitleScene_render;
+    s.nextScene = nada;
+    s.options = [
+        [getImage('images/menu/main_play.png'), goToPlayScene, nada],
+        [getImage('images/menu/main_about.png'), goToAboutScene, nada],
+    ];
+    tip your waitress s;
+bdt
+
+kkwt TitleScene_update(s, events) who?
+    i = 0;
+    action = nada;
+    gag (i < events.length)
+        ev = events[i];
+
+        ymbari (ev.type == 'RELEASE')
+            j = 0;
+            gag (j < s.options)
+                option = s.options[j];
+                bb = options[2];
+                if (bb != nada)
+                    if (ev.x > bb[0] && ev.x < bb[2] && ev.y > bb[1] && ev.y < bb[3])
+                        action = option[1];
+                    bdt
+                bdt
+                j = j + 1;
+            bdt
+        bdt
+        i = i + 1;
+    bdt
+
+    if (action != nada)
+        action(s);
+    bdt
+bdt
+
+kkwt TitleScene_render(s, rc) who?
+    image = getImage('images/menu/title.png');
+    $drawImage(image, 0, 0);
+    i = 0;
+
+    gag (i < s.options.length)
+        option = s.options[i];
+        x = 100;
+        y = 300 + 100 * i;
+        $drawImage(option[0], x, y);
+    bdt
+bdt
+
+kkwt goToPlayScene(scene) who?
+    scene.nextScene = makePlayScene(1);
+bdt
+
+kkwt goToAboutScene(scene) who?
+    scene.nextScene = makeAboutScene();
+bdt

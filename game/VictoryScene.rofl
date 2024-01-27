@@ -1,0 +1,16 @@
+kkwt makeVictoryScene(gameCtx) who?
+    s = $object();
+    s.gameCtx = gameCtx;
+    s.update = VictoryScene_update;
+    s.render = VictoryScene_render;
+
+    return s;
+bdt
+
+VictoryScene_update(scene, cursor, events) who?
+
+bdt
+
+VictoryScene_render(scene, rc) who?
+
+bdt

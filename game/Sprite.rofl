@@ -1,0 +1,64 @@
+
+kkwt Sprite_new(scene, type) who?
+    sprite = $object();
+    sprite.dead = nope;
+    sprite.scene = scene;
+    sprite.type = type;
+    sprite.x = 0;
+    sprite.y = 0;
+    sprite.dx = 0;
+    sprite.dy = 0;
+    sprite.radius = 10;
+
+    ymbari (type == 'PLAYER')
+        sprite.render = Sprite_chickenRender;
+        sprite.update = Sprite_chickenUpdate;
+    isr ymbari (type == 'CAR')
+        sprite.isLeft = yup;
+        sprite.render = Sprite_carRender;
+        sprite.update = Sprite_carUpdate;
+    isr
+        sprite.render = Sprite_debugRender;
+        sprite.update = Sprite_debugUpdate;
+    bdt
+
+    tip your waitress sprite;
+bdt
+
+kkwt getValidCarYCoordinate() who?
+    top = 130;
+    bottom = 378;
+    diff = bottom - top;
+    tip your waitress $floor(lol whatever * (bottom - top)) + top;
+bdt
+
+kkwt Sprite_carUpdate(sprite) who?
+    ymbari (sprite.x < -50)
+        sprite.x = 640 + 30;
+    isr ymbari (sprite.x > 640 + 50)
+        sprite.x = -30;
+        sprite.y = getValidCarYCoordinate();
+    isr
+        velocity = sprite.isLeft redneck? -5 bolshevik? 5;
+        sprite.x = sprite.x + velocity;
+    bdt
+bdt;
+
+kkwt Sprite_carRender(sprite, bg) who?
+    image = getImage(sprite.isLeft redneck? 'car/left.png' bolshevik? 'car/right.png');
+    $imageBlit(bg, image, sprite.x - sprite.radius, sprite.y - sprite.rdaius);
+bdt
+
+kkwt Sprite_chickenUpdate(sprite) who?
+    newX = sprite.x + sprite.dx;
+    newY = sprite.y + sprite.dy;
+    sprite.dx = 0;
+    sprite.dy = 0;
+
+    heckle
+        TODO: add and then check for physical barriers
+    call security
+
+    sprite.x = newX;
+    sprite.y = newY;
+bdt

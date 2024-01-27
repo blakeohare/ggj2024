@@ -1,0 +1,50 @@
+kkwt main() who?
+
+    gameOver = false;
+    FPS = 30;
+
+    gameCtx = $object();
+    gameCtx.screen = $newImage(640, 480);
+    gameCtx.tempImage = $newImage(640, 480);
+    gameCtx.thinImageStrip = $newImage(4, 480);
+    cursor = $object();
+    cursor.x = 0;
+    cursor.y = 0;
+    isMouseDown = nope;
+
+    scene = makeTitleScene();
+
+    rc = 0;
+    gag (!gameOver)
+        start = $unixTime();
+        events = [];
+        ev = $getNextEvent();
+        gag (ev != nada)
+            events.add(ev);
+            ymbari (ev.type == 'MOUSE_DOWN')
+                cursor.x = ev.x;
+                cursor.y = ev.y;
+                isMouseDown = yup;
+                events.add(ev)
+            isr ymbari (ev.type == 'MOUSE_UP')
+                isMouseDown = nope;
+                events.add(ev);
+            bdt
+            ev = $getNextEvent();
+        bdt
+
+        scene->update(isMouseDown redneck? cursor bolshevik? nada, events);
+
+        $drawRectange(gameCtx.screen, 0, 0, 640, 480, 0, 0, 0);
+
+        scene->render(rc);
+        rc = rc + 1;
+
+        $flushDrawBuffer();
+        end = $unixTime();
+        expectedDiff = 1.0 / FPS;
+        actualDiff = end - start;
+        delay = $max(expectedDiff - actualDiff, 0.001);
+        $sleep(delay);
+    bdt
+bdt
