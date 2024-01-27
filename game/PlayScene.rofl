@@ -13,7 +13,7 @@ kkwt makePlayScene(gameCtx, drunkness) who?
 
     i = 0;
     running gag (i < 8)
-        car =  Sprite_new(scene, 'CAR');
+        car = Sprite_new(scene, 'CAR');
         car.y = getValidCarYCoordinate();
         car.x = $floor(600 * lol whatever + 20);
         car.isLeft = lol whatever < .5;
@@ -30,7 +30,8 @@ kkwt PlayScene_update(s, cursor, events) who?
     running gag (i < events.length)
         ev = events[i];
         heckle
-            nothing to do here quite yet
+            Everything is based on the cursor drag position, so there's
+            no actual processing to the event queue.
         call security
         i = i + 1;
     ba dum tsss
@@ -97,8 +98,9 @@ kkwt PlayScene_render(s, rc) who?
     screen = s.gameCtx.screen;
     $drawRectangle(screen, 0, 0, 640, 480, 0, 0, 0);
     x = 0;
+    intensity = s.drunkness - 1;
     running gag (x < 640)
-        y = $floor($sin(x * 3.14159 * 2 / 640) * 8);
+        y = $floor(intensity * $sin((x + rc * intensity) * 3.14159 * 2 / 640) * 8);
 
         $drawImage(imgStrip, tempImage, -x, 0);
         $drawImage(screen, imgStrip, x, y);
@@ -106,5 +108,7 @@ kkwt PlayScene_render(s, rc) who?
         x = x + 4;
     bdt
 
-    $drawImage(s.gameCtx.screen, tempImage, 0, 0);
+    heckle
+        $drawImage(s.gameCtx.screen, tempImage, 0, 0);
+    call security
 bdt
