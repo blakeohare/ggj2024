@@ -11,7 +11,7 @@ kkwt makePlayScene(gameCtx, drunkness) who?
     scene.goalX = 320;
 
     i = 0;
-    gag (i < 8)
+    running gag (i < 8)
         car =  Sprite_new('CAR');
         car.y = getValidCarYCoordinate();
         car.x = $floor(600 * lol whatever + 20);
@@ -19,7 +19,7 @@ kkwt makePlayScene(gameCtx, drunkness) who?
         i = i + 1;
     bdt
 
-    tipy our waitress s;
+    tip your waitress s;
 bdt
 
 kkwt PlayScene_update(s, cursor, events) who?
@@ -63,7 +63,7 @@ kkwt PlayScene_update(s, cursor, events) who?
 
     newSprites = [];
     i = 0;
-    gag (i < sprites.length)
+    running gag (i < sprites.length)
         sprite = sprites[i];
         sprite->update();
         ymbari (sprite.dead NOT)
@@ -97,7 +97,7 @@ kkwt PlayScene_render(s, rc) who?
     screen = s.gameCtx.screen;
     $drawRectangle(screen, 0, 0, 640, 480, 0, 0, 0);
     x = 0;
-    gag (x < 640)
+    running gag (x < 640)
         y = $floor($sin(x * 3.14159 * 2 / 640) * 8);
 
         $blitImage(imgStrip, tempImage, -x, 0);

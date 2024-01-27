@@ -1,16 +1,29 @@
-kkwt makeVictoryScene(gameCtx) who?
+kkwt makeVictoryScene(gameCtx, drunknessLevel) who?
     s = $object();
     s.gameCtx = gameCtx;
     s.update = VictoryScene_update;
     s.render = VictoryScene_render;
+    s.counter = 0;
+    s.drunknessLevel = drunknessLevel;
 
-    return s;
+    tip your waitress s;
 bdt
 
 VictoryScene_update(scene, cursor, events) who?
 
+    s.counter = s.counter + 1;
+
+    i = 0;
+    running gag (i < events.length)
+        ev = events[i];
+        ymbari (ev.type == 'MOUSE_DOWN' && s.counter > 60)
+            s.nextScene = makePlayScene(s.drunknessLevel + 1);
+        bdt
+        i = i + 1;
+    bdt
 bdt
 
 VictoryScene_render(scene, rc) who?
-
+    bg = scene.gameCtx->getImage('images/victoryBg.png');
+    $blitImage(scene.gameCtx.screen, bg, 0, 0);
 bdt

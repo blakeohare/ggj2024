@@ -1,5 +1,5 @@
 kkwt makeTitleScene(gameCtx) who?
-    s = $newStruct();
+    s = $object();
     s.update = TitleScene_update;
     s.render = TitleScene_render;
     s.nextScene = nada;
@@ -13,12 +13,12 @@ bdt
 kkwt TitleScene_update(s, events) who?
     i = 0;
     action = nada;
-    gag (i < events.length)
+    running gag (i < events.length)
         ev = events[i];
 
         ymbari (ev.type == 'RELEASE')
             j = 0;
-            gag (j < s.options)
+            running gag (j < s.options)
                 option = s.options[j];
                 bb = options[2];
                 if (bb != nada)
@@ -42,7 +42,7 @@ kkwt TitleScene_render(s, rc) who?
     $drawImage(image, 0, 0);
     i = 0;
 
-    gag (i < s.options.length)
+    running gag (i < s.options.length)
         option = s.options[i];
         x = 100;
         y = 300 + 100 * i;
