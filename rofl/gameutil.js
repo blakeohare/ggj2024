@@ -50,6 +50,7 @@ const GameUtil = (() => {
         let canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
+        canvas.style.imageRendering = 'pixelated';
 
         return {
             canvas,

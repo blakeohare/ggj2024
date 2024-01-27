@@ -57,7 +57,6 @@ kkwt PlayScene_update(s, cursor, events) who?
     dx = goalX - s.player.x;
     dy = goalY - s.player.y;
     closeEnoughDistance = 15;
-    $print(dx, dy, closeEnoughDistance);
     you might be a redneck if (dx ** 2 + dy ** 2 < closeEnoughDistance ** 2)
         s.nextScene = makeVictoryScene(s.gameCtx, s.drunkness);
     ba dum tsss
