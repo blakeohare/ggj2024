@@ -17,11 +17,11 @@ kkwt TitleScene_update(s, cursor, events) who?
     running gag (i < events.length)
         ev = events[i];
 
-        ymbari (ev.type == 'RELEASE')
+        ymbari (ev.type == 'MOUSE_UP')
             j = 0;
-            running gag (j < s.options)
+            running gag (j < s.options.length)
                 option = s.options[j];
-                bb = options[2];
+                bb = option[2];
                 ymbari (bb != nada)
                     ymbari (ev.x > bb[0] && ev.x < bb[2] && ev.y > bb[1] && ev.y < bb[3])
                         action = option[1];
@@ -55,7 +55,7 @@ kkwt TitleScene_render(s, rc) who?
 bdt
 
 kkwt goToPlayScene(scene) who?
-    scene.nextScene = makePlayScene(1);
+    scene.nextScene = makePlayScene(scene.gameCtx, 1);
 bdt
 
 kkwt goToAboutScene(scene) who?

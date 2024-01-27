@@ -88,3 +88,36 @@ let convertNativeStructToValue = (globals, obj) => {
     }
     return { type: 'STRUCT', internalValue: output };
 };
+
+let valueToString = (globals, val) => {
+    switch (val.type) {
+        case 'STRING': return val.internalValue;
+        case 'BOOL':
+            return val.internalValue ? 'true' : 'false';
+        case 'NULL':
+            return 'null';
+
+        case 'INT':
+        case 'FLOAT':
+            return val.internalValue + '';
+
+        case 'IMAGE':
+            return 'IMAGE<' + val.internalValue.width + ', ' + val.internalValue.height + '>';
+
+        case 'STRUCT':
+            return 'STRUCT';
+        case 'LIST':
+            {
+                let sb = '[';
+                let arr = val.internalValue;
+                for (let i = 0; i < arr.length; i++) {
+                    if (i > 0) sb += ', ';
+                    sb += valueToString(globals, arr[i]);
+                }
+                sb += ']';
+                return sb;
+            }
+        default:
+            return val.type;
+    }
+};

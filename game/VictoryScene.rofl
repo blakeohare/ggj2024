@@ -11,13 +11,13 @@ bdt
 
 kkwt VictoryScene_update(scene, cursor, events) who?
 
-    s.counter = s.counter + 1;
+    scene.counter = scene.counter + 1;
 
     i = 0;
     running gag (i < events.length)
         ev = events[i];
         ymbari (ev.type == 'MOUSE_DOWN' && s.counter > 60)
-            s.nextScene = makePlayScene(s.drunknessLevel + 1);
+            scene.nextScene = makePlayScene(scene.gameCtx, scene.drunknessLevel + 1);
         bdt
         i = i + 1;
     bdt
@@ -25,5 +25,5 @@ bdt
 
 kkwt VictoryScene_render(scene, rc) who?
     bg = scene.gameCtx->getImage('images/victoryBg.png');
-    $blitImage(scene.gameCtx.screen, bg, 0, 0);
+    $drawImage(scene.gameCtx.screen, bg, 0, 0);
 bdt

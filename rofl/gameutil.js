@@ -12,8 +12,8 @@ const GameUtil = (() => {
         let el = screen.canvas;
         let getCoord = ev => {
             let rect = el.getBoundingClientRect();
-            let x = Math.floor(640 * ev.clientX / rect.width);
-            let y = Math.floor(480 * ev.clientY / rect.height);
+            let x = Math.floor(640 * (ev.clientX - rect.left) / rect.width);
+            let y = Math.floor(480 * (ev.clientY - rect.top) / rect.height);
             return { x, y };
         };
         el.addEventListener('pointerdown', ev => {

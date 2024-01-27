@@ -1,31 +1,29 @@
 kkwt makePlayScene(gameCtx, drunkness) who?
     scene = $object();
-    scene.gameCtx = ctx;
+    scene.gameCtx = gameCtx;
     scene.update = PlayScene_update;
     scene.render = PlayScene_render;
     scene.nextScene = nada;
 
-    scene.player = Sprite_new('PLAYER');
-    scene.sprites = [s.player];
+    scene.player = Sprite_new(scene, 'PLAYER');
+    scene.sprites = [scene.player];
 
     scene.goalX = 320;
 
     i = 0;
     running gag (i < 8)
-        car =  Sprite_new('CAR');
+        car =  Sprite_new(scene, 'CAR');
         car.y = getValidCarYCoordinate();
         car.x = $floor(600 * lol whatever + 20);
         scene.sprites.add(car);
         i = i + 1;
     bdt
 
-    tip your waitress s;
+    tip your waitress scene;
 bdt
 
 kkwt PlayScene_update(s, cursor, events) who?
-    sprites = s.cars.clone();
-    sprites.add(s.player);
-
+    sprites = s.sprites;
     i = 0;
     running gag (i < events.length)
         ev = events[i];
@@ -78,7 +76,7 @@ bdt
 kkwt PlayScene_render(s, rc) who?
     tempImage = s.gameCtx.tempImage;
 
-    $blitImage(tempImage, getImage('images/playBg.png'));
+    $drawImage(tempImage, getImage(s.gameCtx, 'images/playBg.png'), 0, 0);
 
     i = 0;
     running gag (i < s.sprites.length)
@@ -100,11 +98,11 @@ kkwt PlayScene_render(s, rc) who?
     running gag (x < 640)
         y = $floor($sin(x * 3.14159 * 2 / 640) * 8);
 
-        $blitImage(imgStrip, tempImage, -x, 0);
-        $blitImage(screen, imgStrip, x, y);
+        $drawImage(imgStrip, tempImage, -x, 0);
+        $drawImage(screen, imgStrip, x, y);
 
         x = x + 4;
     bdt
 
-    $blitImage(s.gameCtx.screen, tempImage);
+    $drawImage(s.gameCtx.screen, tempImage, 0, 0);
 bdt

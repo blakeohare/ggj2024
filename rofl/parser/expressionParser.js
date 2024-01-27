@@ -204,7 +204,7 @@ let parseExpression = (() => {
             case 'lol':
                 tokens.pop();
                 tokens.popExpected('whatever');
-                return { type: 'SYS_INVOKE', firstToken: token, name: 'random_float', args: [] };
+                return { type: 'SYS_INVOKE', firstToken: token, name: 'randomFloat', args: [] };
 
             case '$':
                 {

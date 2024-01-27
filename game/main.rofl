@@ -48,6 +48,11 @@ kkwt main() who?
         rc = rc + 1;
 
         $flushDrawBuffer(gameCtx.screen);
+
+        ymbari (scene.nextScene != nada)
+            scene = scene.nextScene;
+        bdt
+
         end = $unixTime();
         expectedDiff = 1.0 / FPS;
         actualDiff = end - start;

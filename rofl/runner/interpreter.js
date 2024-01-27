@@ -18,8 +18,10 @@ let runtimeError = (ec, pc, frame, err) => {
 let interpret = async bundle => {
     let { bytecode, pcLookup, images, screen, globals } = bundle;
     let ec = bundle;
+    let mainPc = pcLookup['main'];
+    if (mainPc === undefined) throw new Error("There must be a function named 'main()'");
     let frame = {
-        pc: pcLookup['main'],
+        pc: mainPc,
         locals: {},
         values: [],
         args: [],
@@ -154,6 +156,18 @@ let interpret = async bundle => {
                             err = "Division by 0";
                         } else {
                             output = buildFloat(globals, left.internalValue / right.internalValue);
+                        }
+                        break;
+
+                    case 'INT**INT':
+                    case 'INT**FLOAT':
+                    case 'FLOAT**INT':
+                    case 'FLOAT**FLOAT':
+                        i = Math.pow(left.internalValue, right.internalValue);
+                        if (isNaN(i)) {
+                            err = "Invalid exponent operation";
+                        } else {
+                            output = buildFloat(globals, i);
                         }
                         break;
 
@@ -388,6 +402,23 @@ let interpret = async bundle => {
                     // invoking a method using a dot
                     output = null;
                     switch (left.type) {
+
+                        case 'LIST':
+                            list1 = left.internalValue;
+                            switch (row.str) {
+                                case 'add':
+                                    output = left;
+                                    if (argc !== 1) {
+                                        err = "list.add() requires a single argument.";
+                                    } else {
+                                        list1.push(args[0]);
+                                    }
+                                    break;
+                                default:
+                                    err = "Lists do not have a method called ." + row.str;
+                                    break;
+                            }
+                            break;
                         case 'STRING':
                             switch (row.str) {
                                 case 'toUpper':
@@ -440,6 +471,22 @@ let interpret = async bundle => {
                 pc += row.arg0;
                 break;
 
+            case 'JUMP_IF_FALSE_ELSE_POP':
+                value = values.pop();
+                if (value.internalValue === false) {
+                    pc += row.arg0;
+                    values.push(value);
+                }
+                break;
+
+            case 'JUMP_IF_TRUE_ELSE_POP':
+                value = values.pop();
+                if (value.internalValue === true) {
+                    pc += row.arg0;
+                    values.push(value);
+                }
+                break;
+
             case 'LIST_DEF':
                 args = [];
                 argc = row.arg0;
@@ -450,6 +497,19 @@ let interpret = async bundle => {
                 args.reverse();
                 values.push({ type: 'LIST', internalValue: args });
                 args = null;
+                break;
+
+            case 'NEGATIVE':
+                value = values.pop();
+                if (value.type === 'INT') {
+                    output = buildInteger(globals, -value.internalValue);
+                } else if (value.type === 'FLOAT') {
+                    output = buildFloat(globals, -value.internalValue);
+                } else {
+                    err = "Negative signs can only be applied to numeric values. This is a " + formattedTypeName(value.type) + '.';
+                    TEXT_INCLUDE('macros/error.js');
+                }
+                values.push(output);
                 break;
 
             case 'POP':
@@ -562,6 +622,14 @@ let interpret = async bundle => {
                         }
                         break;
 
+                    case 'floor':
+                        if (argc !== 1 || (args[0].type !== 'INT' && args[0].type !== 'FLOAT')) {
+                            err = "$floor() requires a single numeric argument."
+                        } else {
+                            output = buildInteger(globals, Math.floor(args[0].internalValue));
+                        }
+                        break;
+
                     case 'flushDrawBuffer':
                         output = VALUE_NULL;
                         if (argc !== 1 || args[0].type !== 'IMAGE') {
@@ -641,6 +709,28 @@ let interpret = async bundle => {
                         output = { type: 'STRUCT', internalValue: {} };
                         break;
 
+                    case 'print':
+                        str = '';
+                        for (i = 0; i < argc; i++) {
+                            if (i > 0) str += ', ';
+                            str += valueToString(globals, args[i]);
+                        }
+                        console.log(str);
+                        output = VALUE_NULL;
+                        break;
+
+                    case 'randomFloat':
+                        output = buildFloat(globals, Math.random());
+                        break;
+
+                    case 'sin':
+                        if (argc !== 1 || (args[0].type !== 'INT' && args[0].type !== 'FLOAT')) {
+                            err = "$sin() requires a numeric argument.";
+                        } else {
+                            output = buildFloat(globals, Math.sin(args[0].internalValue));
+                        }
+                        break;
+
                     case 'sleep':
                         if (argc !== 1 || (args[0].type !== 'INT' && args[0].type !== 'FLOAT')) {
                             err = "$sleep() requires a numeric argument.";
@@ -669,7 +759,7 @@ let interpret = async bundle => {
             case 'VAR':
                 value = locals[row.str];
                 if (!value) {
-                    if (pcLookup[row.str]) {
+                    if (pcLookup[row.str] !== undefined) {
                         row.op = 'PUSH_VALUE';
                         row.valueCache = {
                             type: 'FUNCTION',
