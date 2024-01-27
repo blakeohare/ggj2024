@@ -50,7 +50,7 @@ let parseExpression = (() => {
                     type: 'OP_PAIR',
                     left: expressions.pop(),
                     right: acc,
-                    op: ops.pop(),
+                    opToken: ops.pop(),
                     isShortCircuit: true,
                 };
                 acc.firstToken = acc.left.firstToken;
@@ -63,7 +63,7 @@ let parseExpression = (() => {
                     firstToken: acc.firstToken,
                     left: acc,
                     right: expressions[i],
-                    op: ops[i - 1],
+                    opToken: ops[i - 1],
                     isShortCircuit: false,
                 };
             }
@@ -164,6 +164,7 @@ let parseExpression = (() => {
                             nameToken: fieldName,
                             name: fieldName.value,
                             isMethodRef: opToken.value === '->',
+                            root,
                         };
                         break;
                     }

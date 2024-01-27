@@ -1,23 +1,30 @@
 let serializeStatement = stmnt => {
 
     switch (stmnt.type) {
+        case 'ASSIGN':
+            switch (stmnt.target.type) {
+                case 'VARIABLE': return serializeAssignVariable(stmnt);
+                case 'INDEX': return serializeAssignIndex(stmnt);
+                case 'DOT_FIELD': return serializeAssignField(stmnt);
+                default: throw new Error();
+            }
         case 'WHILE': return serializeWhile(stmnt);
         case 'IF': return serializeIf(stmnt);
         case 'RETURN': return serializeReturn(stmnt);
 
-        case 'EXPR':
+        case 'EXPRESSION':
             return joinRows(
                 serializeExpression(stmnt.expression),
                 createRow('POP')
             );
 
-        default: 
+        default:
             throw new Error(stmnt.type);
     }
 };
 
 let serializeWhile = whileLoop => {
-    let condition = serialieExpression(whileLoop.condition);
+    let condition = serializeExpression(whileLoop.condition);
     let code = joinRows(...whileLoop.code.map(line => serializeStatement(line)));
     let codeSize = code ? code.size : 0;
     return joinRows(
@@ -60,4 +67,26 @@ let serializeReturn = ret => {
             ? serializeExpression(ret.expression)
             : createRow('PUSH_NULL'),
         createRow('RETURN'));
+};
+
+let serializeAssignVariable = asgn => {
+    let varName = asgn.target.name;
+    return joinRows(
+        serializeExpression(asgn.value),
+        createRow('ASSIGN_VAR', asgn.opToken, varName));
+};
+
+let serializeAssignIndex = asgn => {
+    return joinRows(
+        serializeExpression(asgn.target.root),
+        serializeExpression(asgn.target.index),
+        serializeExpression(asgn.value),
+        createRow('ASSIGN_INDEX', asgn.opToken));
+};
+
+let serializeAssignField = asgn => {
+    return joinRows(
+        serializeExpression(asgn.target.root),
+        serializeExpression(asgn.value),
+        createRow('ASSIGN_FIELD', asgn.opToken, asgn.target.name));
 };

@@ -7,11 +7,16 @@ let serializeEntities = (entities) => {
     let bytecode = null;
     let pcLookup = {};
 
-    let sortedNames = Object.keys(entities).sort();
+    let entityByName = {};
+    for (let entity of entities) {
+        if (entityByName[entity.name]) throw throwError(entity, "There are multiple entities defined named '" + entity.name + "'");
+        entityByName[entity.name] = entity;
+    }
+    let sortedNames = Object.keys(entityByName).sort();
     for (let name of sortedNames) {
         let pc = bytecode ? bytecode.size : 0;
         pcLookup[name] = pc;
-        buffer = joinRows(serializeEntity(entities[name]));
+        bytecode = joinRows(bytecode, serializeEntity(entityByName[name]));
     }
 
     return {

@@ -1,5 +1,9 @@
 let joinRows = (...rows) => {
+
     rows = rows.filter(v => !!v);
+    rows.forEach(r => {
+        if (typeof r.size !== 'number') throw new Error();
+    });
     if (rows.length === 0) return null;
     if (rows.length === 1) return rows[0];
     let acc = rows[0];
@@ -47,7 +51,7 @@ let flattenBytecode = (buffer) => {
             str: row.str,
             token: row.token,
             args: row.args,
-            arg0: row.args[0] || 0,
+            arg0: row.args ? (row.args[0] || 0) : 0,
         };
     });
 };
