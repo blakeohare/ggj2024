@@ -4,8 +4,9 @@ const GameUtil = (() => {
         while (e.firstChild) e.removeChild(e.firstChild);
     };
 
+    let screen = null;
     let buildScreen = () => {
-        let screen = createImage(640, 480);
+        screen = createImage(640, 480);
         clearElement(document.body);
         document.body.append(screen.canvas);
         let el = screen.canvas;
@@ -53,10 +54,26 @@ const GameUtil = (() => {
         };
     };
 
+    let drawRect = (img, x, y, w, h, r, g, b) => {
+        img.ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        img.ctx.fillRect(x, y, w, h);
+    };
+
+    let drawImage = (dst, src, x, y) => {
+        dst.ctx.drawImage(src.canvas, x, y);
+    };
+
+    let blitToScreen = (img) => {
+        screen.ctx.drawImage(img.canvas, 0, 0);
+    };
+
     return Object.freeze({
+        blitToScreen,
         buildScreen,
         createImage,
         cloneImage,
+        drawImage,
+        drawRect,
         getNextEvent,
     });
 

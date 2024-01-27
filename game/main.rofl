@@ -30,18 +30,24 @@ kkwt main() who?
             isr ymbari (ev.type == 'MOUSE_UP')
                 isMouseDown = nope;
                 events.add(ev);
+            isr ymbari (ev.type == 'MOUSE_MOVE')
+                ymbari (isMouseDown)
+                    cursor.x = ev.x;
+                    cursor.y = ev.y;
+                    events.add(ev);
+                bdt
             bdt
             ev = $getNextEvent();
         bdt
 
         scene->update(isMouseDown redneck? cursor bolshevik? nada, events);
 
-        $drawRectange(gameCtx.screen, 0, 0, 640, 480, 0, 0, 0);
+        $drawRectangle(gameCtx.screen, 0, 0, 640, 480, 0, 0, 0);
 
         scene->render(rc);
         rc = rc + 1;
 
-        $flushDrawBuffer();
+        $flushDrawBuffer(gameCtx.screen);
         end = $unixTime();
         expectedDiff = 1.0 / FPS;
         actualDiff = end - start;

@@ -119,6 +119,17 @@ let interpret = async bundle => {
                         output = buildFloat(globals, left.internalValue + right.internalValue);
                         break;
 
+                    case 'INT*INT':
+                        output = buildInteger(globals, left.internalValue * right.internalValue);
+                        break;
+
+                    case 'INT*FLOAT':
+                    case 'FLOAT*INT':
+                    case 'FLOAT*FLOAT':
+                        output = buildFloat(globals, left.internalValue * right.internalValue);
+                        break;
+
+
                     case 'INT==FLOAT':
                     case 'FLOAT==INT':
                         output = left.internalValue === right.internalValue ? VALUE_TRUE : VALUE_FALSE;
@@ -127,6 +138,34 @@ let interpret = async bundle => {
                     case 'INT!=FLOAT':
                     case 'FLOAT!=INT':
                         output = left.internalValue === right.internalValue ? VALUE_TRUE : VALUE_FALSE;
+                        break;
+
+                    case 'INT<INT':
+                    case 'INT<FLOAT':
+                    case 'FLOAT<INT':
+                    case 'FLOAT<FLOAT':
+                        output = left.internalValue < right.internalValue ? VALUE_TRUE : VALUE_FALSE;
+                        break;
+
+                    case 'INT>INT':
+                    case 'INT>FLOAT':
+                    case 'FLOAT>INT':
+                    case 'FLOAT>FLOAT':
+                        output = left.internalValue > right.internalValue ? VALUE_TRUE : VALUE_FALSE;
+                        break;
+
+                    case 'INT<=INT':
+                    case 'INT<=FLOAT':
+                    case 'FLOAT<=INT':
+                    case 'FLOAT<=FLOAT':
+                        output = left.internalValue <= right.internalValue ? VALUE_TRUE : VALUE_FALSE;
+                        break;
+
+                    case 'INT>=INT':
+                    case 'INT>=FLOAT':
+                    case 'FLOAT>=INT':
+                    case 'FLOAT>=FLOAT':
+                        output = left.internalValue >= right.internalValue ? VALUE_TRUE : VALUE_FALSE;
                         break;
 
 
@@ -166,6 +205,18 @@ let interpret = async bundle => {
                 output = null;
                 err = null;
                 switch (left.type) {
+
+                    case 'LIST':
+                        switch (row.str) {
+                            case 'length':
+                                output = buildInteger(globals, left.internalValue.length);
+                                break;
+
+                            default:
+                                err = "Lists do not have a field named '." + row.str + "'";
+                                break;
+                        }
+                        break;
                     case 'STRING':
                         switch (row.str) {
                             case 'length':
@@ -176,13 +227,30 @@ let interpret = async bundle => {
                                 break;
                         }
                         break;
+
+                    case 'IMAGE':
+                        switch (row.str) {
+                            case 'width':
+                            case 'height':
+                                output = buildInteger(globals, left.internalValue[row.str]);
+                                break;
+
+                            default:
+                                err = "The image type has no field named ." + row.str;
+                                break;
+                        }
+                        break;
+
                     case 'STRUCT':
                         output = left.internalValue[row.str];
                         if (!output) {
                             err = "Use of undefined struct field: '." + row.str + "'";
                         }
                         break;
+
                     default:
+                        err = "The " + formattedTypeName(left.type) + " type does not support dot notation.";
+                        break;
                 }
 
                 if (err) {
@@ -208,6 +276,36 @@ let interpret = async bundle => {
                 }
                 break;
 
+            case 'INDEX':
+                right = values.pop();
+                left = values.pop();
+
+                switch (left.type) {
+                    case 'LIST':
+                        if (right.type !== 'INT') {
+                            err = "Lists can only be indexed with an integer type.";
+                        } else {
+                            list1 = left.internalValue;
+                            i = right.internalValue;
+                            if (i < 0) i += list1.length;
+                            if (i < 0 || i >= list1.length) {
+                                err = "List index is out of bounds. Index was " + i + " but the length was " + list1.length + ".";
+                            } else {
+                                output = list1[i];
+                            }
+                        }
+                        break;
+                    default:
+                        err = "The " + formattedTypeName(left.type) + " type does not support indexing.";
+                        break;
+                }
+
+                if (err) {
+                    TEXT_INCLUDE('macros/error.js');
+                }
+                values.push(output);
+                break;
+
             case 'INVOKE':
                 args = [];
                 argc = row.arg0;
@@ -228,13 +326,15 @@ let interpret = async bundle => {
                     // prepend the original struct as the first argument and then
                     // just pretend it's a normal function.
                     args = [left, ...args];
-                    int2 = pcLookup[row.str];
-                    if (int2 === undefined) {
-                        err = "There is no function defined named '" + row.str + "'";
+                    left = left.internalValue[row.str];
+                    if (!left) {
+                        err = "This struct has no field named '" + row.str + "'";
                         TEXT_INCLUDE('macros/error.js');
                     }
-                    left = row.valueCache || {type: 'FUNCTION', internalValue: { pc: int2, name: row.str } };
-                    row.valueCache = left;
+                    if (left.type !== 'FUNCTION') {
+                        err = "The field '" + row.str + "' contains a " + formattedTypeName(left.type) + " but it is invoked like a function.";
+                        TEXT_INCLUDE('macros/error.js');
+                    }
                     int1 = 0; // treat as a simple function.
                 }
 
@@ -325,6 +425,10 @@ let interpret = async bundle => {
                 args = null;
                 break;
 
+            case 'POP':
+                values.pop();
+                break;
+
             case 'POP_AND_JUMP_IF_FALSE':
                 value = values.pop();
                 if (!value.internalValue) {
@@ -390,11 +494,48 @@ let interpret = async bundle => {
                 args.reverse();
                 output = null;
                 switch (row.str) {
-                    case 'newImage':
-                        if (argc !== 2 || args[0].type !== 'INT' || args[1].type !== 'INT') {
-                            err = "2 arguments expected for $newImage()";
+
+                    case 'drawImage':
+                        if (argc !== 4 || args[0].type !== 'IMAGE' || args[1].type !== 'IMAGE' || args[2].type !== 'INT' || args[3].type !== 'INT') {
+                            err = "$drawImage requires 2 image arguments and 2 integer arguments.";
                         } else {
-                            output = { type: 'IMAGE', internalValue: GameUtil.createImage(args[0].internalValue, args[1].internalValue) };
+                            GameUtil.drawImage(args[0].internalValue, args[1].internalValue, args[2].internalValue, args[3].internalValue);
+                        }
+                        break;
+
+
+                    case 'drawRectangle':
+                        if (argc !== 8 || args[0].type !== 'IMAGE') {
+                            err = "8 arguments expected for $drawRect. The first argument must be an image.";
+                        } else {
+                            for (i = 1; i < 8; i++) {
+                                if (args[i].type !== 'INT') {
+                                    err = "$drawRect requires an image argument followed by 7 integer arguments.";
+                                    break;
+                                }
+                            }
+
+                            if (!err) {
+                                GameUtil.drawRect(
+                                    args[0].internalValue,
+                                    args[1].internalValue,
+                                    args[2].internalValue,
+                                    args[3].internalValue,
+                                    args[4].internalValue,
+                                    args[5].internalValue,
+                                    args[6].internalValue,
+                                    args[7].internalValue);
+                            }
+                        }
+                        break;
+
+                    case 'flushDrawBuffer':
+                        output = VALUE_NULL;
+                        if (argc !== 1 || args[0].type !== 'IMAGE') {
+                            err = "$flushDrawBuffer() requires a single image.";
+                        } else {
+                            GameUtil.blitToScreen(args[0].internalValue);
+                            output = VALUE_NULL;
                         }
                         break;
 
@@ -426,6 +567,15 @@ let interpret = async bundle => {
                             }
                         }
                         break;
+
+                    case 'newImage':
+                        if (argc !== 2 || args[0].type !== 'INT' || args[1].type !== 'INT') {
+                            err = "2 arguments expected for $newImage()";
+                        } else {
+                            output = { type: 'IMAGE', internalValue: GameUtil.createImage(args[0].internalValue, args[1].internalValue) };
+                        }
+                        break;
+
                     case 'object':
                         output = { type: 'STRUCT', internalValue: {} };
                         break;
