@@ -28,7 +28,7 @@ const ROFL = (() => {
 
         let imageList = await Promise.all(imageFiles.map(imageKey => {
             return new Promise(res => {
-                let imgEl = document.createElement('image');
+                let imgEl = document.createElement('img');
                 imgEl.addEventListener('load', () => {
                     let canvas = document.createElement('canvas');
                     let width = imgEl.width;
@@ -39,6 +39,8 @@ const ROFL = (() => {
                     ctx.drawImage(imgEl, 0, 0);
                     res({ canvas, ctx, width, height, originalPath: imageKey });
                 });
+                let b64Data = files[imageKey];
+                imgEl.src = 'data:image/png;base64,' + b64Data;
             });
         }));
         let images = {};
