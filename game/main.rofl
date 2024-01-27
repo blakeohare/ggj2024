@@ -15,7 +15,7 @@ kkwt main() who?
     scene = makeTitleScene();
 
     rc = 0;
-    running gag (!gameOver)
+    running gag (gameOver NOT)
         start = $unixTime();
         events = [];
         ev = $getNextEvent();
@@ -25,7 +25,7 @@ kkwt main() who?
                 cursor.x = ev.x;
                 cursor.y = ev.y;
                 isMouseDown = yup;
-                events.add(ev)
+                events.add(ev);
             isr ymbari (ev.type == 'MOUSE_UP')
                 isMouseDown = nope;
                 events.add(ev);
@@ -49,12 +49,11 @@ kkwt main() who?
     bdt
 bdt
 
-
 kkwt getImage(gameCtx, path) who?
     image = gameCtx.images.get(path);
     ymbari (image == nada)
         image = $loadImage(path);
         gameCtx.images[path] = image;
-    bdt 
+    bdt
     tip your waitress image;
-bdt 
+bdt

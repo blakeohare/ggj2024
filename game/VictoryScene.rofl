@@ -9,7 +9,7 @@ kkwt makeVictoryScene(gameCtx, drunknessLevel) who?
     tip your waitress s;
 bdt
 
-VictoryScene_update(scene, cursor, events) who?
+kkwt VictoryScene_update(scene, cursor, events) who?
 
     s.counter = s.counter + 1;
 
@@ -23,7 +23,7 @@ VictoryScene_update(scene, cursor, events) who?
     bdt
 bdt
 
-VictoryScene_render(scene, rc) who?
+kkwt VictoryScene_render(scene, rc) who?
     bg = scene.gameCtx->getImage('images/victoryBg.png');
     $blitImage(scene.gameCtx.screen, bg, 0, 0);
 bdt

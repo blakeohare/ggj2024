@@ -42,7 +42,7 @@ kkwt Sprite_carUpdate(sprite) who?
         velocity = sprite.isLeft redneck? -5 bolshevik? 5;
         sprite.x = sprite.x + velocity;
     bdt
-bdt;
+bdt
 
 kkwt Sprite_carRender(sprite, bg) who?
     image = getImage(sprite.isLeft redneck? 'car/left.png' bolshevik? 'car/right.png');

@@ -21,8 +21,8 @@ kkwt TitleScene_update(s, events) who?
             running gag (j < s.options)
                 option = s.options[j];
                 bb = options[2];
-                if (bb != nada)
-                    if (ev.x > bb[0] && ev.x < bb[2] && ev.y > bb[1] && ev.y < bb[3])
+                ymbari (bb != nada)
+                    ymbari (ev.x > bb[0] && ev.x < bb[2] && ev.y > bb[1] && ev.y < bb[3])
                         action = option[1];
                     bdt
                 bdt
@@ -32,7 +32,7 @@ kkwt TitleScene_update(s, events) who?
         i = i + 1;
     bdt
 
-    if (action != nada)
+    ymbari (action != nada)
         action(s);
     bdt
 bdt
