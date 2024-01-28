@@ -322,6 +322,20 @@ let interpret = async bundle => {
                 left = values.pop();
 
                 switch (left.type) {
+                    case 'STRING':
+                        if (right.type !== 'INT') {
+                            err = "Strings can only be indexed with an integer type.";
+                        } else {
+                            str1 = left.internalValue;
+                            i = right.internalValue;
+                            if (i < 0) i += str1.length;
+                            if (i < 0 || i >= str1.length) {
+                                err = "String index is out of bounds. Index was " + i + " but the length was " + list1.length + ".";
+                            } else {
+                                output = buildCommonString(globals, str1[i]);
+                            }
+                        }
+                        break;
                     case 'LIST':
                         if (right.type !== 'INT') {
                             err = "Lists can only be indexed with an integer type.";
