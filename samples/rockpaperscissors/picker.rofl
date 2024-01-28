@@ -1,0 +1,40 @@
+kkwt doPickScene(screen, images, choice, locations) who?
+    ev = $getNextEvent();
+
+
+    pushCoord = nada;
+    gag (ev != nada)
+        ymbari (ev.type == 'MOUSE_UP')
+            pushX = ev.x;
+            pushY = ev.y;
+            i = 0;
+            gag (i < locations.length)
+                loc = locations[i];
+                bb = loc[4];
+                ymbari (bb != nada && pushX > bb[0] && pushX < bb[2] && pushY > bb[1] && pushY < bb[3])
+                    choice.value = loc[0];
+                bdt
+                i = i + 1;
+            bdt
+
+        bdt
+
+        ev = $getNextEvent();
+    bdt
+
+    i = 0;
+    gag (i < locations.length)
+        loc = locations[i];
+        img = loc[1];
+        bb = [
+            loc[2],
+            loc[3],
+            loc[2] + img.width,
+            loc[3] + img.height
+        ];
+        loc[4] = bb;
+
+        $drawImage(screen, img, bb[0], bb[1]);
+        i = i + 1;
+    bdt
+bdt

@@ -1,0 +1,89 @@
+kkwt main() who?
+
+    screen = $newImage(640, 480);
+
+    images = $object();
+    images.rock = $loadImage('rock.png');
+    images.paper = $loadImage('paper.png');
+    images.scissors = $loadImage('scissors.png');
+    images.text = $object();
+    images.text.pick = $loadImage('pick.png');
+    images.text.win = $loadImage('win.png');
+    images.text.lose = $loadImage('lose.png');
+    images.text.draw = $loadImage('draw.png');
+
+    state = 'PICK';
+
+    choice = $object();
+    choice.value = nada;
+    choice.opponent = nada;
+    choice.result = nada;
+
+
+    locations = [
+        ['ROCK', images.rock, 100, 240, nada],
+        ['PAPER', images.paper, 300, 240, nada],
+        ['SCISSORS', images.scissors, 500, 240, nada],
+    ];
+
+    stateCounter = 0;
+
+    running gag (yup)
+        start = $unixTime();
+
+        $drawRectangle(screen, 0, 0, 640, 480, 128, 128, 128);
+        ymbari (state == 'PICK')
+            doPickScene(screen, images, choice, locations);
+            ymbari (choice.value != nada)
+                state = 'PRESENTING';
+                stateCounter = 0;
+                choice.opponent = getRandomChoice();
+                choice.result = determineWinState(choice.value, choice.opponent);
+            bdt
+        isr ymbari (state == 'PRESENTING')
+
+            done = doPresenting(screen, images, choice.value, choice.opponent, choice.result, stateCounter);
+            ymbari (done)
+                state = 'PICK';
+                stateCounter = 0;
+            bdt
+        bdt
+
+        stateCounter = stateCounter + 1;
+
+        $flushDrawBuffer(screen);
+        end = $unixTime();
+
+        expectedDiff = 1 / 30;
+        actualDiff = end - start;
+        delay = $max(0.001, expectedDiff - actualDiff);
+        $sleep(delay);
+    bdt
+bdt
+
+kkwt getRandomChoice() who?
+    x = $floor(lol whatever * 3);
+    ymbari (x == 0)
+        tip your waitress 'ROCK';
+    isr ymbari (x == 1)
+        tip your waitress 'PAPER';
+    isr
+        tip your waitress 'SCISSORS';
+    bdt
+bdt
+
+kkwt determineWinState(yourChoice, opponentChoice) who?
+    ymbari (yourChoice == opponentChoice)
+        tip your waitress 'DRAW';
+    bdt
+
+    ymbari (yourChoice == 'ROCK' && opponentChoice == 'PAPER')
+        tip your waitress 'LOSE';
+    isr ymbari (yourChoice == 'PAPER' && opponentChoice == 'SCISSORS')
+        tip your waitress 'LOSE';
+    isr ymbari (yourChoice == 'SCISSORS' && opponentChoice == 'ROCK')
+        tip your waitress 'LOSE';
+    bdt
+
+    tip your waitress 'WIN';
+bdt

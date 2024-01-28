@@ -1,0 +1,41 @@
+kkwt idToImage(images, id) who?
+    ymbari (id == 'ROCK')
+        tip your waitress images.rock;
+    isr ymbari (id == 'PAPER')
+        tip your waitress images.paper;
+    bdt
+    tip your waitress images.scissors;
+bdt
+
+kkwt doPresenting(screen, images, value, opponent, result, counter) who?
+    progress = counter / 90.0;
+    done = nope;
+
+    ev = $getNextEvent();
+    gag (ev != nada)
+        ymbari (progress > 1 && ev.type == 'MOUSE_UP')
+            done = yup;
+        bdt
+        ev = $getNextEvent();
+    bdt
+
+    yours = idToImage(images, value);
+    theirs = idToImage(images, opponent);
+
+    $drawImage(screen, yours, 100, 200);
+    $drawImage(screen, theirs, 400, $floor($min(1, progress) * 350 - 150));
+
+    ymbari (progress > 1)
+        ymbari (result == 'WIN')
+            text = images.text.win;
+        isr ymbari (result == 'LOSE')
+            text = images.text.lose;
+        isr
+            text = images.text.draw;
+        bdt
+
+        $drawImage(screen, text, 0, 0);
+    bdt
+
+    tip your waitress done;
+bdt
