@@ -4,6 +4,7 @@ kkwt makeTitleScene(gameCtx) who?
     s.update = TitleScene_update;
     s.render = TitleScene_render;
     s.nextScene = nada;
+    s.counter = 0;
     s.options = [
         [getImage(gameCtx, 'images/main_play.png'), goToPlayScene, nada],
         [getImage(gameCtx, 'images/main_about.png'), goToAboutScene, nada],
@@ -12,6 +13,8 @@ kkwt makeTitleScene(gameCtx) who?
 bdt
 
 kkwt TitleScene_update(s, cursor, events) who?
+    s.counter = s.counter + 1;
+
     i = 0;
     action = nada;
     running gag (i < events.length)
@@ -39,15 +42,31 @@ kkwt TitleScene_update(s, cursor, events) who?
 bdt
 
 kkwt TitleScene_render(s, rc) who?
-    screen = s.gameCtx.screen;
-    image = getImage(s.gameCtx, 'images/title.png');
-    $drawImage(screen, image, 0, 0);
-    i = 0;
 
+    screen = s.gameCtx.screen;
+
+    $drawRectangle(screen, 0, 0, 640, 480, 0, 0, 80);
+
+    image = getImage(s.gameCtx, 'images/title_bg.png');
+    $drawImage(screen, image, 0, 0);
+
+    t1Progress = $max(0, $min(1, s.counter / 20.0));
+    t2Progress = $max(0, $min(1, (s.counter / 20.0) - 1));
+
+    chicken = getImage(s.gameCtx, 'images/title_chicken.png');
+    $drawImage(screen, chicken, 81, 139);
+
+    title = getImage(s.gameCtx, 'images/title_part1.png');
+    $drawImage(screen, title, $floor(46 * t1Progress), 10);
+
+    title = getImage(s.gameCtx, 'images/title_part2.png');
+    $drawImage(screen, title, $floor(640 - t2Progress * (640 - 329)), 122);
+
+    i = 0;
     running gag (i < s.options.length)
         option = s.options[i];
-        x = 100;
-        y = 250 + 100 * i;
+        x = 370 + i * 150;
+        y = 400;
         $drawImage(screen, option[0], x, y);
         option[2] = [x, y, option[0].width + x, option[0].height + y];
         i = i + 1;
