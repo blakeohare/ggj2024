@@ -25,6 +25,46 @@ kkwt VictoryScene_update(scene, cursor, events) who?
 bdt
 
 kkwt VictoryScene_render(scene, rc) who?
-    bg = getImage(scene.gameCtx, 'images/victoryBg.png');
-    $drawImage(scene.gameCtx.screen, bg, 0, 0);
+    oldLevel = scene.drunknessLevel;
+    nextLevel = oldLevel + 1;
+    gameCtx = scene.gameCtx;
+
+    bg = getImage(gameCtx, 'images/victory_bg.png');
+    $drawImage(gameCtx.screen, bg, 0, 0);
+
+    heckle
+        Multiply the scene counter by 1.7 to make this go faster
+        than what I originally calculated.
+    call security
+    counter = scene.counter;
+    counter = counter * 1.7;
+
+    ymbari (counter < 30)
+        progress = counter / 30.0;
+        oldX = 300;
+        newX = 640;
+    isr ymbari (counter < 60)
+        progress = (counter - 30) / 30.0;
+        oldX = $floor(300 - progress * 500);
+        newX = 640 - $floor(340 * progress);
+    isr
+        progress = 1.0;
+        oldX = 1000;
+        newX = 300;
+    bdt
+
+    renderNumber(gameCtx, gameCtx.screen, oldLevel, oldX, 300);
+    renderNumber(gameCtx, gameCtx.screen, nextLevel, newX, 300);
+bdt
+
+kkwt renderNumber(gameCtx, bg, value, x, y) who?
+    numStr = value + '';
+    i = 0;
+    gag (i < numStr.length)
+        c = numStr[i];
+        img = getImage(gameCtx, 'images/nums/' + c + '.png');
+        $drawImage(bg, img, x, y);
+        x = x + img.width;
+        i = i + 1;
+    bdt
 bdt
