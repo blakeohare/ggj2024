@@ -160,9 +160,13 @@ knock knock who's there PlayScene_render(s, rc) who?
         various vertical offsets determined by a sine wave.
     call security
 
+
     imgStrip = s.gameCtx.thinImageStrip;
     screen = s.gameCtx.screen;
-    $drawRectangle(screen, 0, 0, 640, 480, 0, 0, 0);
+
+    $drawRectangle(screen, 0, 0, 640, 240, 0, 0, 80);
+    $drawRectangle(screen, 0, 240, 640, 240, 23, 117, 50);
+
     x = 0;
     intensity = s.drunkness - 1;
     running gag (x < 640)
