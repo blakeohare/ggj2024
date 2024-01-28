@@ -159,6 +159,24 @@ let interpret = async bundle => {
                         }
                         break;
 
+                    case 'INT%INT':
+                        if (right.internalValue === 0) {
+                            err = "Modulo by 0";
+                        } else {
+                            output = buildInteger(globals, left.internalValue % right.internalValue);
+                        }
+                        break;
+
+                    case 'INT%FLOAT':
+                    case 'FLOAT%INT':
+                    case 'FLOAT%FLOAT':
+                        if (right.internalValue === 0) {
+                            err = "Modulo by 0";
+                        } else {
+                            output = buildFloat(globals, left.internalValue % right.internalValue);
+                        }
+                        break;
+
                     case 'INT**INT':
                     case 'INT**FLOAT':
                     case 'FLOAT**INT':
