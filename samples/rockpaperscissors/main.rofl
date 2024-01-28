@@ -46,6 +46,9 @@ kkwt main() who?
             ymbari (done)
                 state = 'PICK';
                 stateCounter = 0;
+                choice.result = nada;
+                choice.value = nada;
+                choice.opponent = nada;
             bdt
         bdt
 

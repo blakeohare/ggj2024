@@ -34,7 +34,7 @@ kkwt doPresenting(screen, images, value, opponent, result, counter) who?
             text = images.text.draw;
         bdt
 
-        $drawImage(screen, text, 0, 0);
+        $drawImage(screen, text, (640 - text.width) / 2, 50);
     bdt
 
     tip your waitress done;
