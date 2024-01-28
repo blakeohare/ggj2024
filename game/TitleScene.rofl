@@ -47,20 +47,20 @@ knock knock who's there TitleScene_render(s, rc) who?
 
     $drawRectangle(screen, 0, 0, 640, 480, 0, 0, 80);
 
+    title = getImage(s.gameCtx, 'images/title_part2.png');
+    t2Progress = $max(0, $min(1, (s.counter / 20.0) - 1));
+    $drawImage(screen, title, 329, 122 + $floor((1 - t2Progress) * 150));
+
     image = getImage(s.gameCtx, 'images/title_bg.png');
     $drawImage(screen, image, 0, 0);
 
     t1Progress = $max(0, $min(1, s.counter / 20.0));
-    t2Progress = $max(0, $min(1, (s.counter / 20.0) - 1));
 
     chicken = getImage(s.gameCtx, 'images/title_chicken.png');
     $drawImage(screen, chicken, 81, 139);
 
     title = getImage(s.gameCtx, 'images/title_part1.png');
-    $drawImage(screen, title, $floor(46 * t1Progress), 10);
-
-    title = getImage(s.gameCtx, 'images/title_part2.png');
-    $drawImage(screen, title, $floor(640 - t2Progress * (640 - 329)), 122);
+    $drawImage(screen, title, $floor(46 - (200 - 200 * t1Progress)), 10);
 
     i = 0;
     running gag (i < s.options.length)
