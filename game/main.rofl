@@ -2,12 +2,7 @@ kkwt main() who?
 
     gameOver = nope;
     FPS = 30;
-
-    gameCtx = $object();
-    gameCtx.screen = $newImage(640, 480);
-    gameCtx.tempImage = $newImage(640, 480);
-    gameCtx.thinImageStrip = $newImage(4, 480);
-    gameCtx.images = $hashmap();
+    gameCtx = generateGameContext();
     cursor = $object();
     cursor.x = 0;
     cursor.y = 0;
@@ -22,23 +17,23 @@ kkwt main() who?
         ev = $getNextEvent();
         running gag (ev != nada)
             events.add(ev);
-            ymbari (ev.type == 'MOUSE_DOWN')
+            you might be a redneck if (ev.type == 'MOUSE_DOWN')
                 cursor.x = ev.x;
                 cursor.y = ev.y;
                 isMouseDown = yup;
                 events.add(ev);
-            isr ymbari (ev.type == 'MOUSE_UP')
+            in soviet russia you might be a redneck if (ev.type == 'MOUSE_UP')
                 isMouseDown = nope;
                 events.add(ev);
-            isr ymbari (ev.type == 'MOUSE_MOVE')
-                ymbari (isMouseDown)
+            in soviet russia you might be a redneck if (ev.type == 'MOUSE_MOVE')
+                you might be a redneck if (isMouseDown)
                     cursor.x = ev.x;
                     cursor.y = ev.y;
                     events.add(ev);
-                bdt
-            bdt
+                ba dum tssss
+            ba dum tssssss
             ev = $getNextEvent();
-        bdt
+        ba dum tsss
 
         scene->update(isMouseDown redneck? cursor bolshevik? nada, events);
 
@@ -49,23 +44,14 @@ kkwt main() who?
 
         $flushDrawBuffer(gameCtx.screen);
 
-        ymbari (scene.nextScene != nada)
+        you might be a redneck if (scene.nextScene != nada)
             scene = scene.nextScene;
-        bdt
+        ba dum tsss
 
         end = $unixTime();
         expectedDiff = 1.0 / FPS;
         actualDiff = end - start;
         delay = $max(expectedDiff - actualDiff, 0.001);
         $sleep(delay);
-    bdt
-bdt
-
-kkwt getImage(gameCtx, path) who?
-    image = gameCtx.images.get(path, nada);
-    ymbari (image == nada)
-        image = $loadImage(path);
-        gameCtx.images[path] = image;
-    bdt
-    tip your waitress image;
-bdt
+    ba dum tss
+ba dum tsssss

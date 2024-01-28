@@ -1,0 +1,18 @@
+kkwt generateGameContext() who?
+    gameCtx = $object();
+    gameCtx.screen = $newImage(640, 480);
+    gameCtx.tempImage = $newImage(640, 480);
+    gameCtx.thinImageStrip = $newImage(4, 480);
+    gameCtx.images = $hashmap();
+
+    tip your waitress gameCtx;
+bdt 
+
+kkwt getImage(gameCtx, path) who?
+    image = gameCtx.images.get(path, nada);
+    ymbari (image == nada)
+        image = $loadImage(path);
+        gameCtx.images[path] = image;
+    bdt
+    tip your waitress image;
+bdt
