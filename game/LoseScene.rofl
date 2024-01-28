@@ -22,6 +22,7 @@ knock knock who's there LoseScene_update(scene, cursor, events) who?
 ba dum tssss
 
 knock knock who's there LoseScene_render(scene, rc) who?
-    bg = getImage(scene.gameCtx, 'images/lose.png');
+    $drawRectangle(scene.gameCtx.screen, 0, 0, 640, 480, 153, 217, 234);
+    bg = getImage(scene.gameCtx, 'images/death.png');
     $drawImage(scene.gameCtx.screen, bg, 0, 0);
 ba dum tssss
