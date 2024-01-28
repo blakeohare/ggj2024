@@ -6,57 +6,54 @@ Whitespace does not matter as most lines end with a semicolon, but generally it 
 
 ## Functions
 
-To define a function, you must use the knock-knock construct:
+To define a function, you must use the **knock-knock** construct:
 
 ```
-kkwt functionName(arg1, arg2, ...) who
+knock knock who's there functionName(arg1, arg2, ...) who
     (code for the function goes here)
-bdt
+ba dum tsss
 ```
 
-`kkwt` stands for "Knock knock! Who's there?".
-
-All code blocks end with a `bdt` which stands for "ba-dum-tsss".
+All code blocks end with a `ba dum tsss`. The number of `s`'s at the end does not matter
+e.g. `ba dum tsssssss` is equivalent to `ba dum ts`.
 
 ## If/Else statements
 
-To create an if statement, use the redneck construct:
+To create an if statement, use the **redneck** construct:
 
 ```
-ymbari (condition)
+you might be a redneck if (condition)
     (code that runs if the condition is true)
-bdt
+ba dum tss
 ```
 
-`ymbari` stands for "You might be a redneck if...".
-
-If an else condition is desired (i.e. if the condition is opposite of what was stated) then you use the In-Soviet-Russia construct:
+If an **else** condition is desired (i.e. if the condition is opposite of what was stated) then you use the **Soviet-Russia** construct:
 
 ```
-ymbari (condition)
+you might be a redneck if (condition)
     (code if condition is true)
-isr
+in soviet russia
     (code if condition is false)
-bdt
+ba dum tsss
 ```
 
-A `bdt` is still required to close the else block.
+A `ba dum tsss` is still required to close the else block.
 
 These can also be chained:
 
 ```
-ymbari (condition1)
+you might be a redneck if (condition1)
     (code if condition1 is true)
-isr ymbari (condition2)
+in soviet russia you might be a redneck if (condition2)
     (code if condition1 is false and condition2 is true)
-isr
+in soviet russia
     (code if neither is true)
-bdt
+ba dum tss
 ```
 
 ## Ternary
 
-Like an if/else, a ternary also uses the redneck/soviet joke format but abbreviated:
+Like an if/else, a ternary also uses the **redneck**/**soviet** joke format but abbreviated:
 
 ```
 (condition) redneck? (value if true) bolshevik? (value if false)
@@ -64,22 +61,22 @@ Like an if/else, a ternary also uses the redneck/soviet joke format but abbrevia
 
 ## Loops
 
-To create a loop, use a running gag:
+To create a loop, use a **running gag**:
 
 ```
 running gag (condition)
     (code that runs until the condition is no longer true)
-bdt
+ba dum tsss
 ```
 
 ## Return
 
-To end a function and return a value, be sure to tip your waitress:
+To end a function and return a value, be sure to **tip your waitress**:
 
 ```
-kkwt double(value) who?
+knock knock who's there double(value) who?
     tip your waitress value * 2;
-bdt
+ba dum tsss
 ```
 
 ## Invert a boolean
@@ -100,7 +97,7 @@ To generate a floating point number between 0 (inclusive) and 1 (exclusive), use
 
 You can create a blank struct using the $object(). You can apply and extract fields from this using dot notation.
 
-> This will likely be changed if I can make it funny.
+> This will likely be changed if I can figure out how to make it funnier.
 
 ```
     temperature = $object();
@@ -110,9 +107,9 @@ You can create a blank struct using the $object(). You can apply and extract fie
     $print("It is currently " + temperature.amount + " degrees " + temperature.scale[0].toUpper());
 ```
 
-## Full spellings
+## Abbreviations
 
-All abbreivations can be spelt out:
+If the syntax is too heavy, most syntax can be abbreviated:
 
 - `kkwt ____ who?`: `knock knock who's there ____ who?`
 - `gag`: `running gag`
