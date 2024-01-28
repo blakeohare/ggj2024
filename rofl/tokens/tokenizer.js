@@ -54,9 +54,14 @@ let tokenize = (file, content) => {
                     mode = 'WORD';
                     tokenStart = i;
                 } else if (c === '"' || c === "'") {
-                    mode = 'STRING';
-                    tokenStart = i;
-                    modeSubtype = c;
+                    if (c === "'" && tokens.length && tokens[tokens.length - 1].value === 'who' && chars[i + 1] === 's') {
+                        // This is actually a "who's" and not a string, which is used by knock knock who's there.
+                        tokens.push({ file, value: chars[i], line: lines[i], col: cols[i], type: 'PUNC' });
+                    } else {
+                        mode = 'STRING';
+                        tokenStart = i;
+                        modeSubtype = c;
+                    }
                 } else if (multicharTokens.has(c + chars[i + 1])) {
                     tokens.push({ file, value: chars[i] + chars[i + 1], line: lines[i], col: cols[i], type: 'PUNC' });
                     i++;
