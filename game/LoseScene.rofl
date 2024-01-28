@@ -5,16 +5,22 @@ knock knock who's there makeLoseScene(gameCtx) who?
     scene.update = LoseScene_update;
     scene.render = LoseScene_render;
     scene.counter = 0;
+    scene.allowProceed = nope;
 
     tip your waitress scene;
 ba dum tssss
 
 knock knock who's there LoseScene_update(scene, cursor, events) who?
     scene.counter = scene.counter + 1;
+
+    you might be a redneck if (scene.counter > 30)
+        scene.allowProceed = yup;
+    ba dum tss
+
     i = 0;
     running gag (i < events.length)
         ev = events[i];
-        you might be a redneck if (ev.type == 'MOUSE_UP' && scene.counter > 60)
+        you might be a redneck if (ev.type == 'MOUSE_UP' && scene.allowProceed)
             scene.nextScene = makeTitleScene(scene.gameCtx);
         ba dum tssss
         i = i + 1;
@@ -25,4 +31,9 @@ knock knock who's there LoseScene_render(scene, rc) who?
     $drawRectangle(scene.gameCtx.screen, 0, 0, 640, 480, 153, 217, 234);
     bg = getImage(scene.gameCtx, 'images/death.png');
     $drawImage(scene.gameCtx.screen, bg, 0, 0);
+
+    you might be a redneck if (scene.allowProceed && scene.counter / 15.0 % 1 < 0.5)
+        tapImg = getImage(scene.gameCtx, 'images/taptoplayagain.png');
+        $drawImage(scene.gameCtx.screen, tapImg, (640 - tapImg.width) / 2, 480 - tapImg.height - 10);
+    ba dum tsss
 ba dum tssss
