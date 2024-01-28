@@ -12,12 +12,44 @@
         </script>
         <style>
             body {
-                background-color: #000;
+                background-color: #222;
+                color: #fff;
+                font-family: sans-serif;
                 margin: 0;
+                text-align: center;
+            }
+            a:link, a:visited {
+                text-decoration: none;
+                font-weight: bold;
+                color: rgb(69, 146, 205);
+            }
+            a:hover {
+                text-decoration: underline;
+                font-weight: bold;
+                color: rgb(173, 153, 206);
+            }
+            #info {
+                width: 640px;
+                box-sizing: border-box;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #444;
+                margin: 0 auto;
+                margin-top: 20px;
+                font-size: 10pt;
+                line-height: 200%;
             }
         </style>
     </head>
     <body>
-
+        <div id="canvas-host"></div>
+        <div id="info">
+            <div>This game and the programming language it was written in were created during Global Game Jam 2024.</div>
+            <div>
+                <a href="https://github.com/blakeohare/ggj2024">GitHub Repo</a> |
+                <a href="https://github.com/blakeohare/ggj2024/blob/main/roflang-doc.md">ROFLang Documentation</a> |
+                <a href="https://github.com/blakeohare/ggj2024/blob/main/game/main.rofl">Game Source (<span style="font-family: monospace">main.rofl</span>)</a>
+            </div>
+        </div>
     </body>
 </html>

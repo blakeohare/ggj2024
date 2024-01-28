@@ -8,8 +8,9 @@ const GameUtil = (() => {
     let buildScreen = () => {
         screen = createImage(640, 480);
         screen.canvas.style.touchAction = 'none';
-        clearElement(document.body);
-        document.body.append(screen.canvas);
+        let host = document.getElementById('canvas-host');
+        clearElement(host);
+        host.append(screen.canvas);
         let el = screen.canvas;
         let getCoord = ev => {
             let rect = el.getBoundingClientRect();
