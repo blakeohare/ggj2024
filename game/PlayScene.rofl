@@ -29,6 +29,25 @@ knock knock who's there makePlayScene(gameCtx, drunkness) who?
         i = i + 1;
     ba dum tssss
 
+
+    scene.roadTop = 125;
+    scene.roadBottom = 426;
+    scene.roadHeight = scene.roadBottom - scene.roadTop;
+    scene.roadMiddle = scene.roadHeight / 2 + scene.roadTop;
+
+    scene.lineYs = [
+        scene.roadTop + scene.roadHeight / 6,
+        scene.roadTop + scene.roadHeight / 3,
+        scene.roadTop + scene.roadHeight * 2 / 3,
+        scene.roadTop + scene.roadHeight * 5 / 6,
+    ];
+
+    scene.lineXs = [];
+    running gag (scene.lineXs.length < scene.lineYs.length)
+        scene.lineXs.add($floor(lol whatever * -100));
+    ba dum tsss
+
+
     tip your waitress scene;
 ba dum tssss
 
@@ -108,6 +127,25 @@ knock knock who's there PlayScene_render(s, rc) who?
         x = x + letter.width;
         i = i + 1;
     ba dum tsss
+
+    fade = $min(1, $max(0, 1 - (s.drunkness / 10.0)));
+
+    $drawRectangle(tempImage, 0, s.roadMiddle - 10, 640, 7, $floor(fade * 255), $floor(fade * 200), 0);
+    $drawRectangle(tempImage, 0, s.roadMiddle + 3, 640, 7, $floor(fade * 255), $floor(fade * 200), 0);
+
+    color = $floor(fade * 255);
+    i = 0;
+    running gag (i < s.lineYs.length)
+        lineY = s.lineYs[i] - 3;
+
+        x = s.lineXs[i];
+        running gag (x < 700)
+            $drawRectangle(tempImage, x, lineY, 60, 5, color, color, color);
+            x = x + 100;
+        ba dum tsss
+        i = i + 1;
+    ba dum tsss
+
 
     i = 0;
     running gag (i < s.sprites.length)
