@@ -1,0 +1,34 @@
+heckle
+    A simple program to calculate (estimate) pi.
+
+    This iterates through trials that picks a random point in a
+    square and checks to see if that point is within the
+    inscribed circle.
+call security
+
+knock knock who's there main() who?
+
+    trialNum = 0;
+    hits = 0;
+    running gag (trialNum < 100000)
+        trialNum = trialNum + 1;
+
+        x = 2 * lol whatever - 1;
+        y = 2 * lol whatever - 1;
+        distFromCenter = (x ** 2 + y ** 2) ** 0.5;
+        you might be a redneck if (distFromCenter <= 1)
+            hits = hits + 1;
+        in soviet russia
+            heckle
+                This point falls outside the inscribed circle.
+            call security
+        ba dum tsss
+
+        you might be a redneck if (trialNum % 100 == 99)
+            areaRatio = 1.0 * hits / trialNum;
+            piEstimate = areaRatio * 4;
+            $print("My estimate for pi is " + piEstimate);
+        ba dum tss
+
+    ba dum tss
+ba dum tss

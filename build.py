@@ -41,7 +41,12 @@ def main(args):
     if not os.path.isdir('bin'):
         os.mkdir('bin')
 
-    build_resources()
+    if len(args) == 0:
+        project_dir = 'game'
+    else:
+        project_dir = args[0]
+
+    build_resources(project_dir)
     build_roflang()
 
     print("Done")
@@ -86,14 +91,14 @@ def do_inclusions(path, lookup, sb):
         do_inclusions(next_file_path, lookup, sb)
         sb.append(rest_code)
 
-def build_resources():
-    game_files = get_file_paths('game')
+def build_resources(project_dir):
+    game_files = get_file_paths(project_dir)
     game_file_lookup = {}
     for file in game_files:
         if file.endswith('.rofl'):
-            game_file_lookup[file] = file_read_text('game/' + file)
+            game_file_lookup[file] = file_read_text(project_dir + '/' + file)
         elif file.endswith('.png'):
-            game_file_lookup[file] = file_read_base64('game/' + file)
+            game_file_lookup[file] = file_read_base64(project_dir + '/' + file)
         else:
             pass
 
