@@ -1,4 +1,4 @@
-kkwt generateGameContext() who?
+knock knock who's there generateGameContext() who?
     gameCtx = $object();
     gameCtx.screen = $newImage(640, 480);
     gameCtx.tempImage = $newImage(640, 480);
@@ -6,13 +6,13 @@ kkwt generateGameContext() who?
     gameCtx.images = $hashmap();
 
     tip your waitress gameCtx;
-bdt 
+ba dum tssss
 
-kkwt getImage(gameCtx, path) who?
+knock knock who's there getImage(gameCtx, path) who?
     image = gameCtx.images.get(path, nada);
-    ymbari (image == nada)
+    you might be a redneck if (image == nada)
         image = $loadImage(path);
         gameCtx.images[path] = image;
-    bdt
+    ba dum tssss
     tip your waitress image;
-bdt
+ba dum tssss

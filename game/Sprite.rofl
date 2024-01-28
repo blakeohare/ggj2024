@@ -1,5 +1,4 @@
-
-kkwt Sprite_new(scene, type) who?
+knock knock who's there Sprite_new(scene, type) who?
     sprite = $object();
     sprite.dead = nope;
     sprite.scene = scene;
@@ -11,43 +10,43 @@ kkwt Sprite_new(scene, type) who?
     sprite.radius = 10;
     sprite.isLeft = yup;
 
-    ymbari (type == 'PLAYER')
+    you might be a redneck if (type == 'PLAYER')
         sprite.render = Sprite_chickenRender;
         sprite.update = Sprite_chickenUpdate;
         sprite.x = 320;
         sprite.y = 460;
-    isr ymbari (type == 'CAR')
+    in soviet russia you might be a redneck if (type == 'CAR')
         sprite.render = Sprite_carRender;
         sprite.update = Sprite_carUpdate;
-    isr
+    in soviet russia
         sprite.render = Sprite_debugRender;
         sprite.update = Sprite_debugUpdate;
-    bdt
+    ba dum tssss
 
     tip your waitress sprite;
-bdt
+ba dum tssss
 
-kkwt getValidCarYCoordinate() who?
+knock knock who's there getValidCarYCoordinate() who?
     top = 130;
     bottom = 378;
     diff = bottom - top;
     tip your waitress $floor(lol whatever * (bottom - top)) + top;
-bdt
+ba dum tssss
 
 kkwt Sprite_carUpdate(sprite) who?
     heckle
         If a car goes off the edge of the screen, restart
         it somewhere randomly on the other side.
     call security
-    ymbari (sprite.x < -50)
+    you might be a redneck if (sprite.x < -50)
         sprite.x = 640 + 30;
-    isr ymbari (sprite.x > 640 + 50)
+    in soviet russia you might be a redneck if (sprite.x > 640 + 50)
         sprite.x = -30;
         sprite.y = getValidCarYCoordinate();
-    isr
+    in soviet russia
         velocity = sprite.isLeft redneck? -5 bolshevik? 5;
         sprite.x = sprite.x + velocity;
-    bdt
+    ba dum tssss
 
     heckle
         If the car is too close to the player, trigger
@@ -57,26 +56,26 @@ kkwt Sprite_carUpdate(sprite) who?
     dx = sprite.x - player.x;
     dy = sprite.y - player.y;
     dist = (dx ** 2 + dy ** 2) ** 0.5;
-    ymbari (dist < 50 && dist < sprite.radius + player.radius)
+    you might be a redneck if (dist < 50 && dist < sprite.radius + player.radius)
         scene = sprite.scene;
         scene.nextScene = makeLoseScene(scene.gameCtx);
-    bdt
-bdt
+    ba dum tssss
+ba dum tssss
 
-kkwt Sprite_carRender(sprite, bg, rc) who?
+knock knock who's there Sprite_carRender(sprite, bg, rc) who?
     image = getImage(
         sprite.scene.gameCtx,
         sprite.isLeft redneck? 'images/carLeft.png' bolshevik? 'images/carRight.png');
     $drawImage(bg, image, sprite.x - sprite.radius, sprite.y - sprite.radius);
-bdt
+ba dum tssss
 
-kkwt Sprite_chickenUpdate(sprite) who?
+knock knock who's there Sprite_chickenUpdate(sprite) who?
     newX = sprite.x + sprite.dx;
     newY = sprite.y + sprite.dy;
 
-    ymbari (sprite.dx < -0.01 || sprite.dx > 0.01)
+    you might be a redneck if (sprite.dx < -0.01 || sprite.dx > 0.01)
         sprite.isLeft = sprite.dx < 0;
-    bdt
+    ba dum tssss
 
     sprite.dx = 0;
     sprite.dy = 0;
@@ -87,12 +86,11 @@ kkwt Sprite_chickenUpdate(sprite) who?
 
     sprite.x = newX;
     sprite.y = newY;
-bdt
+ba dum tssss
 
-kkwt Sprite_chickenRender(sprite, bg, rc) who?
+knock knock who's there Sprite_chickenRender(sprite, bg, rc) who?
     image = getImage(
         sprite.scene.gameCtx,
         sprite.isLeft redneck? 'images/chickenLeft.png' bolshevik? 'images/chickenRight.png');
     $drawImage(bg, image, $floor(sprite.x - sprite.radius), $floor(sprite.y - sprite.radius));
-bdt
-
+ba dum tssss

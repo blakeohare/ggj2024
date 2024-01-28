@@ -1,4 +1,4 @@
-kkwt makeVictoryScene(gameCtx, drunknessLevel) who?
+knock knock who's there makeVictoryScene(gameCtx, drunknessLevel) who?
     s = $object();
     s.gameCtx = gameCtx;
     s.update = VictoryScene_update;
@@ -8,23 +8,23 @@ kkwt makeVictoryScene(gameCtx, drunknessLevel) who?
     s.nextScene = nada;
 
     tip your waitress s;
-bdt
+ba dum tssss
 
-kkwt VictoryScene_update(scene, cursor, events) who?
+knock knock who's there VictoryScene_update(scene, cursor, events) who?
 
     scene.counter = scene.counter + 1;
 
     i = 0;
     running gag (i < events.length)
         ev = events[i];
-        ymbari (ev.type == 'MOUSE_DOWN' && scene.counter > 60)
+        you might be a redneck if (ev.type == 'MOUSE_DOWN' && scene.counter > 60)
             scene.nextScene = makePlayScene(scene.gameCtx, scene.drunknessLevel + 1);
-        bdt
+        ba dum tssss
         i = i + 1;
-    bdt
-bdt
+    ba dum tssss
+ba dum tssss
 
-kkwt VictoryScene_render(scene, rc) who?
+knock knock who's there VictoryScene_render(scene, rc) who?
     oldLevel = scene.drunknessLevel;
     nextLevel = oldLevel + 1;
     gameCtx = scene.gameCtx;
@@ -39,32 +39,32 @@ kkwt VictoryScene_render(scene, rc) who?
     counter = scene.counter;
     counter = counter * 1.7;
 
-    ymbari (counter < 30)
+    you might be a redneck if (counter < 30)
         progress = counter / 30.0;
         oldX = 300;
         newX = 640;
-    isr ymbari (counter < 60)
+    in soviet russia you might be a redneck if (counter < 60)
         progress = (counter - 30) / 30.0;
         oldX = $floor(300 - progress * 500);
         newX = 640 - $floor(340 * progress);
-    isr
+    in soviet russia
         progress = 1.0;
         oldX = 1000;
         newX = 300;
-    bdt
+    ba dum tssss
 
     renderNumber(gameCtx, gameCtx.screen, oldLevel, oldX, 300);
     renderNumber(gameCtx, gameCtx.screen, nextLevel, newX, 300);
-bdt
+ba dum tssss
 
-kkwt renderNumber(gameCtx, bg, value, x, y) who?
+knock knock who's there renderNumber(gameCtx, bg, value, x, y) who?
     numStr = value + '';
     i = 0;
-    gag (i < numStr.length)
+    running gag (i < numStr.length)
         c = numStr[i];
         img = getImage(gameCtx, 'images/nums/' + c + '.png');
         $drawImage(bg, img, x, y);
         x = x + img.width;
         i = i + 1;
-    bdt
-bdt
+    ba dum tssss
+ba dum tssss
