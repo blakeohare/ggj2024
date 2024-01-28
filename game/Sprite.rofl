@@ -35,6 +35,10 @@ kkwt getValidCarYCoordinate() who?
 bdt
 
 kkwt Sprite_carUpdate(sprite) who?
+    heckle
+        If a car goes off the edge of the screen, restart
+        it somewhere randomly on the other side.
+    call security
     ymbari (sprite.x < -50)
         sprite.x = 640 + 30;
     isr ymbari (sprite.x > 640 + 50)
@@ -43,6 +47,19 @@ kkwt Sprite_carUpdate(sprite) who?
     isr
         velocity = sprite.isLeft redneck? -5 bolshevik? 5;
         sprite.x = sprite.x + velocity;
+    bdt
+
+    heckle
+        If the car is too close to the player, trigger
+        the lose screen.
+    call security
+    player = sprite.scene.player;
+    dx = sprite.x - player.x;
+    dy = sprite.y - player.y;
+    dist = (dx ** 2 + dy ** 2) ** 0.5;
+    ymbari (dist < 50 && dist < sprite.radius + player.radius)
+        scene = sprite.scene;
+        scene.nextScene = makeLoseScene(scene.gameCtx);
     bdt
 bdt
 

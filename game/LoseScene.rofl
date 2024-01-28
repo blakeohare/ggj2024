@@ -1,0 +1,27 @@
+kkwt makeLoseScene(gameCtx) who?
+    scene = $object();
+    scene.gameCtx = gameCtx;
+    scene.nextScene = nada;
+    scene.update = LoseScene_update;
+    scene.render = LoseScene_render;
+    scene.counter = 0;
+
+    tip your waitress scene;
+bdt
+
+kkwt LoseScene_update(scene, cursor, events) who?
+    scene.counter = scene.counter + 1;
+    i = 0;
+    gag (i < events.length)
+        ev = events[i];
+        ymbari (ev.type == 'MOUSE_UP' && scene.counter > 60)
+            scene.nextScene = makeTitleScene(scene.gameCtx);
+        bdt
+        i = i + 1;
+    bdt
+bdt
+
+kkwt LoseScene_render(scene, rc) who?
+    bg = getImage(scene.gameCtx, 'images/lose.png');
+    $drawImage(scene.gameCtx.screen, bg, 0, 0);
+bdt
