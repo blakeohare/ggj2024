@@ -9,7 +9,7 @@ Whitespace does not matter as most lines end with a semicolon, but generally it 
 To define a function, you must use the **knock-knock** construct:
 
 ```
-knock knock who's there functionName(arg1, arg2, ...) who
+knock knock who's there functionName(arg1, arg2, ...) who?
     (code for the function goes here)
 ba dum tsss
 ```
