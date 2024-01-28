@@ -80,5 +80,5 @@ knock knock who's there goToPlayScene(scene) who?
 ba dum tssss
 
 knock knock who's there goToAboutScene(scene) who?
-    scene.nextScene = makeAboutScene();
+    scene.nextScene = makeAboutScene(scene.gameCtx);
 ba dum tssss

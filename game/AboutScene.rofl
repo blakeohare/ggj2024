@@ -1,0 +1,30 @@
+knock knock who's there makeAboutScene(gameCtx) who?
+    scene = $object();
+    scene.gameCtx = gameCtx;
+    scene.nextScene = nada;
+    scene.update = AboutScene_update;
+    scene.render = AboutScene_render;
+    scene.counter = 0;
+
+    tip your waitress scene;
+ba dum tssss
+
+knock knock who's there AboutScene_update(scene, cursor, events) who?
+    scene.counter = scene.counter + 1;
+
+    i = 0;
+    running gag (i < events.length)
+        ev = events[i];
+        you might be a redneck if (ev.type == 'MOUSE_UP' && scene.counter > 20)
+            scene.nextScene = makeTitleScene(scene.gameCtx);
+        ba dum tssss
+        i = i + 1;
+    ba dum tssss
+ba dum tssss
+
+knock knock who's there AboutScene_render(scene, rc) who?
+
+    bg = getImage(scene.gameCtx, 'images/about.png');
+    $drawImage(scene.gameCtx.screen, bg, 0, 0);
+
+ba dum tssss
