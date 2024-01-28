@@ -673,7 +673,7 @@ let interpret = async bundle => {
                         output = null;
                         for (i = 0; i < argc; i++) {
                             if (args[i].type === 'INT' || args[i].type === 'FLOAT') {
-                                if (output === null || args[i].internalValue > value.internalValue) {
+                                if (output === null || args[i].internalValue > output.internalValue) {
                                     output = args[i];
                                 }
                             } else {
@@ -687,7 +687,7 @@ let interpret = async bundle => {
                         output = null;
                         for (i = 0; i < argc; i++) {
                             if (args[i].type === 'INT' || args[i].type === 'FLOAT') {
-                                if (output === null || args[i].internalValue < value.internalValue) {
+                                if (output === null || args[i].internalValue < output.internalValue) {
                                     output = args[i];
                                 }
                             } else {
