@@ -112,7 +112,7 @@ let interpret = async bundle => {
                 output = null;
                 switch (left.type + row.str + right.type) {
                     case 'INT+INT':
-                        output = buildInteger(globals, left.internalValue + right.internalValue);
+                        output = buildInteger(globals, Math.floor(left.internalValue + right.internalValue));
                         break;
 
                     case 'INT+FLOAT':
@@ -132,7 +132,7 @@ let interpret = async bundle => {
                         break;
 
                     case 'INT*INT':
-                        output = buildInteger(globals, left.internalValue * right.internalValue);
+                        output = buildInteger(globals, Math.floor(left.internalValue * right.internalValue));
                         break;
 
                     case 'INT*FLOAT':
@@ -145,7 +145,7 @@ let interpret = async bundle => {
                         if (right.internalValue === 0) {
                             err = "Division by 0";
                         } else {
-                            output = buildInteger(globals, left.internalValue / right.internalValue);
+                            output = buildInteger(globals, Math.floor(left.internalValue / right.internalValue));
                         }
                         break;
 
@@ -163,7 +163,7 @@ let interpret = async bundle => {
                         if (right.internalValue === 0) {
                             err = "Modulo by 0";
                         } else {
-                            output = buildInteger(globals, left.internalValue % right.internalValue);
+                            output = buildInteger(globals, Math.floor(left.internalValue % right.internalValue));
                         }
                         break;
 

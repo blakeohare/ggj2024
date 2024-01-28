@@ -5,6 +5,14 @@ knock knock who's there makePlayScene(gameCtx, drunkness) who?
     scene.render = PlayScene_render;
     scene.nextScene = nada;
     scene.drunkness = drunkness;
+    scene.barX = 100 + $floor(400 * (lol whatever));
+    scene.barY = 20;
+    scene.barImage = getImage(gameCtx, 'images/bar.png');
+    scene.barLetters = [
+        getImage(gameCtx, 'images/barB.png'),
+        getImage(gameCtx, 'images/barA.png'),
+        getImage(gameCtx, 'images/barR.png'),
+    ];
 
     scene.player = Sprite_new(scene, 'PLAYER');
     scene.sprites = [scene.player];
@@ -52,12 +60,13 @@ knock knock who's there PlayScene_update(s, cursor, events) who?
         ba dum tssss
     ba dum tsss
 
-    goalX = 332;
-    goalY = 83;
+    goalX = s.barX + s.barImage.width / 2;
+    goalY = s.barY + s.barImage.height * 2 / 3;
 
     dx = goalX - s.player.x;
     dy = goalY - s.player.y;
-    closeEnoughDistance = 15;
+    closeEnoughDistance = 20;
+
     you might be a redneck if (dx ** 2 + dy ** 2 < closeEnoughDistance ** 2)
         s.nextScene = makeVictoryScene(s.gameCtx, s.drunkness);
     ba dum tsss
@@ -79,7 +88,26 @@ ba dum tssss
 knock knock who's there PlayScene_render(s, rc) who?
     tempImage = s.gameCtx.tempImage;
 
+    $drawRectangle(tempImage, 0, 0, 640, 480, 0, 0, 80);
     $drawImage(tempImage, getImage(s.gameCtx, 'images/playBg.png'), 0, 0);
+    $drawImage(tempImage, getImage(s.gameCtx, 'images/bar.png'), s.barX, s.barY);
+
+    i = 0;
+    x = 49 + s.barX;
+    y = 6 + s.barY;
+    running gag (i < 3)
+        letter = s.barLetters[i];
+        t = rc % 20;
+        blink = i == 2 && t < 5 && t % 2 == 0;
+        you might be a redneck if (i == 1 && blink NOT)
+            blink = lol whatever < 0.05;
+        ba dum tsss
+        you might be a redneck if (blink NOT)
+            $drawImage(tempImage, letter, x, y);
+        ba dum tss
+        x = x + letter.width;
+        i = i + 1;
+    ba dum tsss
 
     i = 0;
     running gag (i < s.sprites.length)
