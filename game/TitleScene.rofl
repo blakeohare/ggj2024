@@ -67,7 +67,9 @@ kkwt TitleScene_render(s, rc) who?
         option = s.options[i];
         x = 370 + i * 150;
         y = 400;
-        $drawImage(screen, option[0], x, y);
+        yOffset = $floor(8 * $sin(i + s.counter / 30.0 * 6.28));
+        yOffset = yOffset < 0 redneck? -yOffset bolshevik? yOffset;
+        $drawImage(screen, option[0], x, y - yOffset);
         option[2] = [x, y, option[0].width + x, option[0].height + y];
         i = i + 1;
     bdt
